@@ -23,6 +23,7 @@ import PuzzleChess from './pages/PuzzleChess';
 import ChessEvents from './pages/ChessEvents';
 import LearnChess from './pages/LearnChess';
 import ChessMore from './pages/ChessMore';
+import Donate from './pages/Donate';
 import NotFoundPage from './pages/404Page';
 
 
@@ -49,6 +50,7 @@ export default function AppRoutes() {
         <Route path="/learn" element={<LearnChess />} />
         <Route path="/chess-events" element={<ChessEvents />} />
         <Route path="/mais" element={<ChessMore />} />
+        <Route path="/donate" element={<Donate />} />
         {/* Add more routes as needed */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
