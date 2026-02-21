@@ -176,7 +176,7 @@ export default function Navbar() {
           </a>
         </div>
 
-        {/* Centro - Menu */}
+        {/* Centro - Menu (desktop) */}
         <div className="hidden lg:flex gap-6">
           {navItems.map((item) => {
             if (item.dropdown === 'play') return renderDropdown(item, playMenuItems, setPlayOpen, playOpen);
@@ -202,7 +202,7 @@ export default function Navbar() {
           })}
         </div>
 
-        {/* Direita - Busca e Auth */}
+        {/* Direita - Busca e Auth (desktop) */}
         <div className="hidden lg:flex items-center gap-3">
           <input
             type="text"
@@ -220,7 +220,55 @@ export default function Navbar() {
             </button>
           </a>
         </div>
+
+        {/* Botão Hamburger (mobile) */}
+        <button
+          className="lg:hidden flex flex-col justify-center items-center gap-1.5 p-2 rounded-lg border border-[#c29d5d]/40 bg-[#232526] hover:bg-[#333] transition-all"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Abrir menu"
+        >
+          <span className={`block w-6 h-0.5 bg-[#c29d5d] transition-all duration-300 ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+          <span className={`block w-6 h-0.5 bg-[#c29d5d] transition-all duration-300 ${menuOpen ? 'opacity-0' : ''}`} />
+          <span className={`block w-6 h-0.5 bg-[#c29d5d] transition-all duration-300 ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+        </button>
       </div>
+
+      {/* Menu Mobile */}
+      {menuOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          className="lg:hidden mt-3 flex flex-col gap-2 pb-3 border-t border-[#c29d5d]/20 pt-3"
+        >
+          {navItems.map((item) => (
+            <a
+              key={item.label}
+              href={item.href}
+              className="flex items-center gap-2 cursor-pointer px-4 py-2.5 rounded-xl font-bold 
+                         bg-gradient-to-r from-[#232526] to-[#2d2d2d] shadow 
+                         border border-[#c29d5d]/30 hover:from-[#444] hover:to-[#232526] 
+                         hover:text-[#c29d5d] transition-all duration-200"
+              onClick={() => setMenuOpen(false)}
+            >
+              {item.label}
+            </a>
+          ))}
+          {/* Auth mobile */}
+          <div className="flex gap-2 mt-2 px-1">
+            <a href="/signup" className="flex-1">
+              <button className="w-full bg-gradient-to-r from-[#e7c27d] to-[#c29d5d] text-black py-2 rounded-xl font-bold hover:scale-105 transition-all">
+                Sign Up
+              </button>
+            </a>
+            <a href="/login" className="flex-1">
+              <button className="w-full bg-gradient-to-r from-[#232526] to-[#2d2d2d] text-white py-2 rounded-xl font-bold border border-[#c29d5d]/50 hover:scale-105 transition-all">
+                Log In
+              </button>
+            </a>
+          </div>
+        </motion.div>
+      )}
     </motion.nav>
   );
 }

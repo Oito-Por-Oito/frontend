@@ -7,17 +7,17 @@ import NextLessonButton from "../components/LearnChess/NextLessonButton";
 
 export default function LearnChess() {
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#232526] via-[#181818] to-[#232526] text-white">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#232526] via-[#181818] to-[#232526] text-white overflow-x-hidden">
       <Navbar />
       <main className="flex-1 flex flex-col items-center justify-center w-full py-8">
-        <div className="w-full max-w-[1600px] flex flex-col md:flex-row items-center justify-center gap-0 md:gap-16 px-2 md:px-12">
+        <div className="w-full max-w-[1600px] flex flex-col lg:flex-row items-center justify-center gap-0 lg:gap-16 px-2 md:px-12">
           {/* Coluna do tabuleiro */}
-          <div className="flex flex-col items-center w-full md:w-auto">
+          <div className="flex flex-col items-center w-full lg:w-auto">
             <ChessBoard />
           </div>
           {/* Sidebar */}
-          <div className="mt-8 md:mt-0 md:ml-8 flex-shrink-0">
-            <aside className="w-full max-w-lg bg-gradient-to-br from-[#232526] via-[#1a1a1a] to-[#232526] p-8 flex flex-col gap-8 rounded-2xl shadow-2xl border border-[#c29d5d]/30">
+          <div className="mt-8 lg:mt-0 lg:ml-8 flex-shrink-0 w-full lg:w-auto">
+            <aside className="w-full max-w-lg mx-auto bg-gradient-to-br from-[#232526] via-[#1a1a1a] to-[#232526] p-6 md:p-8 flex flex-col gap-8 rounded-2xl shadow-2xl border border-[#c29d5d]/30">
               {/* Header */}
               <div className="flex items-center gap-2 mb-2">
                 <span className="bg-[#5b3f19] text-xs font-bold px-2 py-1 rounded-full">Aula</span>

@@ -65,13 +65,13 @@ function PlayersTable({ mode, category, players }) {
 
 export default function RatingsPlayers() {
   return (
-    <div className="min-h-screen bg-[#1e1e1e] text-white flex flex-col">
+    <div className="min-h-screen bg-[#1e1e1e] text-white flex flex-col overflow-x-hidden">
       <Navbar />
       <motion.main
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: 'easeOut' }}
-        className="flex flex-col items-center bg-[#2c2c2c] px-2 md:px-8 pt-8 flex-1 w-full"
+        className="flex flex-col items-center bg-[#2c2c2c] px-2 sm:px-4 md:px-8 pt-8 flex-1 w-full"
       >
         <motion.div
           initial={{ opacity: 0, y: 30 }}

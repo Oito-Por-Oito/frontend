@@ -15,8 +15,7 @@ export default function PlaySidebarMenu({ menuItems }) {
   };
   return (
     <div
-      className="flex-shrink-0 flex flex-col h-full"
-      style={{ maxWidth: 370, minWidth: 370, width: 370 }}
+      className="flex-shrink-0 flex flex-col h-full w-full md:max-w-[370px]"
     >
       <motion.section
         initial={{ opacity: 0, y: 30 }}

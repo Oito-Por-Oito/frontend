@@ -45,9 +45,9 @@ const cards = [
 
 export default function ChessSocial() {
   return (
-    <div className="min-h-screen bg-[#1f1f1f] text-white">
+    <div className="min-h-screen bg-[#1f1f1f] text-white overflow-x-hidden">
       <Navbar />
-      <div className="p-6 flex flex-col items-center justify-center">
+      <div className="p-4 sm:p-6 flex flex-col items-center justify-center">
         <div className="w-full max-w-4xl flex flex-col items-center justify-center mx-auto">
           <SocialHeader />
           <SocialCardsGrid cards={cards} />

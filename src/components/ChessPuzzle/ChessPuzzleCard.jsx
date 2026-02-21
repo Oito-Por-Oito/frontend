@@ -8,7 +8,7 @@ export default function ChessPuzzleCard() {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: 'easeOut' }}
-      className="bg-gradient-to-r from-[#232526] via-[#1a1a1a] to-[#232526] text-white rounded-2xl p-4 md:p-8 shadow-xl max-w-4xl w-full mx-auto flex flex-col md:flex-row items-center gap-6 md:gap-8 border-t-2 border-b-2 border-[#c29d5d]/30"
+      className="bg-gradient-to-r from-[#232526] via-[#1a1a1a] to-[#232526] text-white rounded-2xl p-4 sm:p-6 md:p-8 shadow-xl max-w-4xl w-full mx-auto flex flex-col sm:flex-row items-center gap-6 md:gap-8 border-t-2 border-b-2 border-[#c29d5d]/30"
     >
       {/* Lado esquerdo: texto + botão + citação */}
       <div className="flex flex-col items-start gap-4 md:gap-6 w-full max-w-sm">

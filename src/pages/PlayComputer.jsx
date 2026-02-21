@@ -12,12 +12,12 @@ export default function PlayComputer() {
   const [game, setGame] = useState(null);
   const [log, setLog] = useState([]);
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#232526] via-[#1a1a1a] to-[#232526] text-white">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#232526] via-[#1a1a1a] to-[#232526] text-white overflow-x-hidden">
       <Navbar />
       <main className="flex-1 flex flex-col items-center justify-center w-full py-8">
-        <div className="w-full max-w-6xl flex flex-col md:flex-row items-center justify-center gap-0 md:gap-12 px-2 md:px-8">
+        <div className="w-full max-w-6xl flex flex-col lg:flex-row items-center justify-center gap-0 lg:gap-12 px-2 md:px-8">
           {/* Coluna do tabuleiro e infos */}
-          <div className="flex flex-col items-center w-full md:w-auto">
+          <div className="flex flex-col items-center w-full lg:w-auto">
             {/* Header do bot */}
             <PlayerInfo
               avatar="/assets/img/anna-rudolf.jpg"
@@ -45,7 +45,7 @@ export default function PlayComputer() {
             />
           </div>
           {/* Sidebar dos bots ou GameStatusLog */}
-          <div className="mt-8 md:mt-0 md:ml-8 flex-shrink-0">
+          <div className="mt-8 lg:mt-0 lg:ml-8 flex-shrink-0 w-full lg:w-auto">
             {!gameStarted ? (
               <BotSidebar stockfishLevel={stockfishLevel} setStockfishLevel={setStockfishLevel} onPlayClick={() => setGameStarted(true)} gameStarted={gameStarted} />
             ) : (

@@ -46,13 +46,13 @@ export default function ChessBoardWithCTA() {
   const piecePositions = moves[boardIndex];
 
   return (
-    <div className="w-[900px] flex flex-col md:flex-row items-start justify-between gap-8">
+    <div className="w-full flex flex-col md:flex-row items-center md:items-start justify-center gap-8">
       {/* TABULEIRO */}
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.7, ease: 'easeOut' }}
-        className="grid grid-cols-8 grid-rows-8 w-[480px] h-[480px] border-2 border-white rounded overflow-hidden"
+        className="grid grid-cols-8 grid-rows-8 w-full max-w-[480px] aspect-square border-2 border-white rounded overflow-hidden"
       >
         {Array.from({ length: 64 }, (_, i) => {
           const row = Math.floor(i / 8);
@@ -90,7 +90,7 @@ export default function ChessBoardWithCTA() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: 'easeOut' }}
-        className="w-[380px] bg-[#1e1e1e] p-8 rounded-lg shadow-lg"
+        className="w-full max-w-[380px] bg-[#1e1e1e] p-6 md:p-8 rounded-lg shadow-lg"
       >
         <h1 className="text-3xl font-bold mb-2">Play Chess Online</h1>
         <h2 className="text-2xl font-semibold mb-4">on the #1 Site!</h2>

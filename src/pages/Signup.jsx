@@ -10,7 +10,7 @@ export default function Signup() {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.7, ease: 'easeOut' }}
-        className="relative w-[380px] bg-[#121212] rounded-2xl shadow-2xl border-2 border-[#c29d5d]/40 px-8 py-10 flex flex-col items-center"
+        className="relative w-full max-w-[380px] mx-4 bg-[#121212] rounded-2xl shadow-2xl border-2 border-[#c29d5d]/40 px-6 sm:px-8 py-10 flex flex-col items-center"
       >
         {/* Log In link no topo direito */}
         <a

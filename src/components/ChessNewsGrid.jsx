@@ -35,7 +35,7 @@ export default function ChessNewsGrid() {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: 'easeOut' }}
-      className="bg-gradient-to-r from-[#232526] via-[#1a1a1a] to-[#232526] text-white p-4 md:p-10 rounded-2xl max-w-4xl w-full mx-auto border-t-2 border-b-2 border-[#c29d5d]/30 shadow-xl"
+      className="bg-gradient-to-r from-[#232526] via-[#1a1a1a] to-[#232526] text-white p-4 sm:p-6 md:p-10 rounded-2xl max-w-4xl w-full mx-auto border-t-2 border-b-2 border-[#c29d5d]/30 shadow-xl"
     >
       <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 text-[#e7c27d] drop-shadow">
         Follow what’s happening in Chess Today.

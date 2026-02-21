@@ -11,17 +11,17 @@ import ClubsList from "../../components/ChessClubs/ClubsList";
 export default function ChessClubs() {
   // Para dados reais, troque ClubsList por um fetch e passe os dados como prop
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#232526] via-[#181818] to-[#232526] text-white">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#232526] via-[#181818] to-[#232526] text-white overflow-x-hidden">
       <Navbar />
       <ClubsHeader />
-      <main className="flex-1 mx-auto max-w-6xl px-2 sm:px-6 md:px-16 py-8 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8 w-full">
+      <main className="flex-1 mx-auto max-w-6xl px-2 sm:px-4 md:px-8 lg:px-16 py-8 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8 w-full">
         <section className="space-y-6">
           <div className="bg-[#181818]/90 border border-[#c29d5d]/20 shadow-lg p-6 rounded-2xl">
             <Toolbar />
             <ClubsList />
           </div>
         </section>
-        <aside className="space-y-6 w-full md:w-80">
+        <aside className="space-y-6 w-full lg:w-80">
           <div className="bg-gradient-to-br from-[#232526] via-[#1a1a1a] to-[#232526] rounded-2xl shadow-xl border-t-2 border-b-2 border-[#c29d5d]/30 p-5">
             <ClubsSidebarLinks />
           </div>

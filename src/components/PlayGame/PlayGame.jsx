@@ -16,9 +16,9 @@ export default function ChessHome() {
   ];
 
   return (
-    <div className="w-full max-w-6xl flex flex-col md:flex-row items-center justify-center gap-0 md:gap-12 px-2 md:px-8">
+    <div className="w-full max-w-6xl flex flex-col lg:flex-row items-center justify-center gap-0 lg:gap-12 px-2 md:px-8">
       {/* Coluna do tabuleiro e infos */}
-      <div className="flex flex-col items-center w-full md:w-auto">
+      <div className="flex flex-col items-center w-full lg:w-auto">
         {/* Header do bot */}
         <PlayerInfoPlay
           avatar={"/assets/logo-oitoporoito.png"}
@@ -41,7 +41,7 @@ export default function ChessHome() {
         />
       </div>
       {/* Sidebar/menu */}
-      <div className="flex justify-center md:justify-start w-full md:w-auto mt-8 md:mt-0 md:ml-8">
+      <div className="flex justify-center lg:justify-start w-full lg:w-auto mt-8 lg:mt-0 lg:ml-8">
         <PlaySidebarMenu menuItems={menuItems} />
       </div>
     </div>

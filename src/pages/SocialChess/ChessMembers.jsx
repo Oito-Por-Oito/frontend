@@ -12,7 +12,7 @@ import FriendsCard from "../../components/ChessMembers/FriendsCard";
 
 export default function ChessMembers() {
 	return (
-		<div className="min-h-screen flex flex-col bg-gradient-to-br from-[#232526] via-[#181818] to-[#232526] text-white">
+		<div className="min-h-screen flex flex-col bg-gradient-to-br from-[#232526] via-[#181818] to-[#232526] text-white overflow-x-hidden">
 			<Navbar />
 			<main className="flex-1 w-full max-w-7xl mx-auto px-2 sm:px-4 md:px-8 py-8 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8">
 				{/* coluna esquerda */}

@@ -17,11 +17,11 @@ import TopPlayersSection from "../components/Chessnews/TopPlayersSection";
 
 export default function Chessnews() {
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#232526] via-[#181818] to-[#232526] text-white">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#232526] via-[#181818] to-[#232526] text-white overflow-x-hidden">
       <Navbar />
       <main className="flex-1 w-full max-w-7xl mx-auto px-2 sm:px-4 md:px-8 py-8">
         {/* Header */}
-        <header className="flex items-center justify-between mb-8">
+        <header className="flex flex-wrap items-center justify-between gap-2 mb-8">
           <div className="flex items-center gap-3">
             <img src="/assets/logo.png" alt="Logo" className="h-10 w-10 object-contain drop-shadow-lg rounded-full border border-[#c29d5d] bg-[#232526] p-1" />
             <h1 className="text-3xl font-bold text-[#e7c27d] drop-shadow">Chess Today</h1>

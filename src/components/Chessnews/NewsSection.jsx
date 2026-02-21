@@ -12,11 +12,11 @@ export default function NewsSection() {
       <h3 className="text-2xl font-bold mb-4 text-[#c29d5d]">Notícias</h3>
 
       {/* Destaque principal */}
-      <div className="flex gap-4 mb-4">
+      <div className="flex flex-col sm:flex-row gap-4 mb-4">
         <img
           src="assets/img/NewsSection.png"
           alt="Tan Zhonyi"
-          className="w-56 h-40 md:w-80 md:h-56 object-cover rounded-2xl border-2 border-[#c29d5d]/30 shadow-2xl"
+          className="w-full sm:w-40 sm:h-28 md:w-80 md:h-56 object-cover rounded-2xl border-2 border-[#c29d5d]/30 shadow-2xl flex-shrink-0"
         />
         <div className="flex-1">
           <h4 className="font-bold text-lg md:text-xl text-[#e7c27d] mb-1">Tan Finishes 3rd With Black Win</h4>

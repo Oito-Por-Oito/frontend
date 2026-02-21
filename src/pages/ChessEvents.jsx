@@ -16,9 +16,9 @@ export default function ChessEvents() {
   const rankings = chessData.rankings;
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#181818] via-[#232526] to-[#181818] text-white">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#181818] via-[#232526] to-[#181818] text-white overflow-x-hidden">
       <Navbar />
-      <main className="flex-1 flex flex-col md:flex-row gap-8 px-2 sm:px-6 md:px-16 py-8 text-white max-w-7xl w-full mx-auto">
+      <main className="flex-1 flex flex-col lg:flex-row gap-8 px-2 sm:px-4 md:px-8 lg:px-16 py-8 text-white max-w-7xl w-full mx-auto">
         {/* Esquerda */}
         <div className="flex-1 flex flex-col gap-8">
           <div className="bg-[#181818]/90 border border-[#c29d5d]/20 shadow-lg p-6 rounded-2xl">
@@ -50,7 +50,7 @@ export default function ChessEvents() {
         </div>
 
         {/* Direita (Sidebar) */}
-        <aside className="w-full md:w-80 flex flex-col gap-8">
+        <aside className="w-full lg:w-80 flex-shrink-0 flex flex-col gap-8">
           <SocialLinks />
           <StreamersList />
           <RankingList rankings={rankings} />

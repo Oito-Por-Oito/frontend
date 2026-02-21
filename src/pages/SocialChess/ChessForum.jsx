@@ -45,7 +45,7 @@ const recent = [
 
 export default function ChessForum() {
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#232526] via-[#181818] to-[#232526] text-white">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#232526] via-[#181818] to-[#232526] text-white overflow-x-hidden">
       <Navbar />
       <ForumHeader />
       <main className="flex-1 mx-auto max-w-6xl px-4 py-8 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8 w-full">

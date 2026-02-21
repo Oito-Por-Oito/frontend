@@ -17,7 +17,7 @@ export default function Footer() {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: 'easeOut' }}
-      className="bg-gradient-to-r from-[#232526] via-[#1a1a1a] to-[#232526] text-gray-300 text-[15px] py-10 px-6 flex flex-col items-center space-y-7 shadow-xl  border-gray-800 "
+      className="bg-gradient-to-r from-[#232526] via-[#1a1a1a] to-[#232526] text-gray-300 text-[15px] py-10 px-4 sm:px-6 flex flex-col items-center space-y-7 shadow-xl border-gray-800 w-full"
     >
       <div className="flex justify-center mb-2">
         <img src="/assets/logo.png" alt="Logo OitoPorOito" className="h-12 w-auto drop-shadow-lg rounded-full bg-[#232526] p-1 border border-[#c29d5d]" />
