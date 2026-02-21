@@ -17,7 +17,7 @@ function GameStatusLog({ renderBoard, gameStarted, game, log }) {
         </div>
       )}
       {/* Log de mensagens */}
-      <div className="w-full max-w-lg mt-4 bg-black/60 rounded p-2 text-xs text-yellow-100 font-mono h-32 overflow-y-auto">
+      <div className="w-full mt-4 bg-black/60 rounded p-2 text-xs text-yellow-100 font-mono h-28 sm:h-32 overflow-y-auto">
         {log.map((l, i) => (
           <div key={i}>{l}</div>
         ))}

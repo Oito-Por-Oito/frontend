@@ -38,7 +38,7 @@ export default function ChessPuzzleCard() {
       </div>
 
       {/* Lado direito: tabuleiro */}
-      <div className="w-full max-w-[180px] md:max-w-[240px] flex justify-center items-center mt-4 md:mt-0">
+      <div className="w-full max-w-[140px] sm:max-w-[180px] md:max-w-[240px] flex justify-center items-center mt-2 sm:mt-4 md:mt-0">
         <img
           src="assets/img/puzzle1.png"
           alt="Chess puzzle board"

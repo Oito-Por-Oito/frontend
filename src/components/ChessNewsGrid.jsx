@@ -37,12 +37,12 @@ export default function ChessNewsGrid() {
       transition={{ duration: 0.7, ease: 'easeOut' }}
       className="bg-gradient-to-r from-[#232526] via-[#1a1a1a] to-[#232526] text-white p-4 sm:p-6 md:p-10 rounded-2xl max-w-4xl w-full mx-auto border-t-2 border-b-2 border-[#c29d5d]/30 shadow-xl"
     >
-      <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 text-[#e7c27d] drop-shadow">
+      <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-center mb-5 sm:mb-8 text-[#e7c27d] drop-shadow">
         Follow what’s happening in Chess Today.
       </h2>
 
       {/* Grid de notícias */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 md:gap-8 mb-6 sm:mb-8">
         {newsItems.map((item, index) => (
           <div key={index} className="flex flex-col bg-[#232526]/60 rounded-xl shadow-lg border border-[#c29d5d]/20 p-2 md:p-3 hover:scale-[1.025] transition-all duration-200">
             <img

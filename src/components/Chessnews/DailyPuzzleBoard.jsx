@@ -33,7 +33,7 @@ function DailyPuzzleBoard({ fen = "r1bqkbnr/ppp2ppp/2np4/4p3/2B1P3/5N2/PPPP1PPP/
         key={coord + "-" + key}
         src={`/assets/pieces/${img}`}
         alt={key}
-        className="w-4 h-4 md:w-6 md:h-6 pointer-events-none select-none"
+        className="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 pointer-events-none select-none"
         draggable={false}
       />
     );

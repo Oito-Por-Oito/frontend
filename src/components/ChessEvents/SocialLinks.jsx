@@ -10,16 +10,15 @@ export default function SocialLinks() {
   ];
 
   return (
-    <div className="bg-gradient-to-br from-[#232526] via-[#1a1a1a] to-[#232526] w-full max-w-xs p-5 rounded-2xl shadow-xl border border-[#c29d5d]/40 text-white">
-      <h2 className="text-xl font-bold mb-4 text-[#e7c27d] drop-shadow flex items-center gap-2">
+    <div className="bg-gradient-to-br from-[#232526] via-[#1a1a1a] to-[#232526] w-full p-4 sm:p-5 rounded-2xl shadow-xl border border-[#c29d5d]/40 text-white">
+      <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-[#e7c27d] drop-shadow flex items-center gap-2">
         🌐 Redes Sociais
       </h2>
-      <div className="flex justify-between flex-wrap gap-2">
+      <div className="flex justify-around flex-wrap gap-2">
         {socialMedia.map((media, index) => (
           <div key={index} className="flex flex-col items-center text-center space-y-1">
             <div
-              className={`w-10 h-10 flex items-center justify-center shadow ${media.color}`}
-              style={{ borderRadius: 20 }}
+              className={`w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center shadow rounded-2xl ${media.color}`}
               title={media.name}
             >
               {media.icon}

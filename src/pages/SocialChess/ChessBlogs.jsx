@@ -97,7 +97,7 @@ export default function ChessBlogs() {
 					<section className="space-y-8">
 						<PostHero post={hero} />
 						{/* grid 2 colunas de cards */}
-						<div className="grid md:grid-cols-2 gap-8">
+						<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
 							{rest.map(p => <PostCard key={p.id} post={p} />)}
 						</div>
 					</section>

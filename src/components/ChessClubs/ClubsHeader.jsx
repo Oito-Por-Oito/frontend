@@ -4,7 +4,7 @@ export default function ClubsHeader() {
   return (
     <div className="border-b border-[#c29d5d]/30 bg-gradient-to-r from-[#232526] via-[#1a1a1a] to-[#232526]">
       <div className="mx-auto max-w-6xl px-4 py-6 flex flex-col gap-2">
-        <h1 className="text-3xl md:text-4xl font-bold text-[#e7c27d] drop-shadow">Encontre um Clube de Xadrez</h1>
+        <h1 className="text-xl sm:text-3xl md:text-4xl font-bold text-[#e7c27d] drop-shadow">Encontre um Clube de Xadrez</h1>
         <div className="mt-3 relative">
           <input
             className="w-full rounded-xl bg-[#181818] border border-[#c29d5d]/20 pl-10 pr-3 py-3 text-base placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#c29d5d]/40 text-white shadow"

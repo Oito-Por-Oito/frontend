@@ -75,7 +75,7 @@ export default function ChessBoardWithCTA() {
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0.8, opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 pointer-events-none"
+                    className="w-6 h-6 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 pointer-events-none"
                     draggable={false}
                   />
                 )}
@@ -92,8 +92,8 @@ export default function ChessBoardWithCTA() {
         transition={{ duration: 0.7, ease: 'easeOut' }}
         className="w-full max-w-[380px] bg-[#1e1e1e] p-6 md:p-8 rounded-lg shadow-lg"
       >
-        <h1 className="text-3xl font-bold mb-2">Play Chess Online</h1>
-        <h2 className="text-2xl font-semibold mb-4">on the #1 Site!</h2>
+        <h1 className="text-2xl sm:text-3xl font-bold mb-2">Play Chess Online</h1>
+        <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4">on the #1 Site!</h2>
         <div className="text-sm mb-6 text-gray-400">
           <span className="font-bold text-white">18,867,311</span> Games Today <br />
           <span className="font-bold text-white">136,285</span> Playing Now

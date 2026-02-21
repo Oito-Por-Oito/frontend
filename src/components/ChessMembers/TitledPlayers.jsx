@@ -39,7 +39,7 @@ export default function TitledPlayers(){
 				<span className="text-sm text-[#e7c27d]/80">(359 Online)</span>
 			</div>
 
-			<div className="grid md:grid-cols-2 gap-x-8 px-4">
+			<div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 lg:gap-x-8 px-3 sm:px-4">
 				<ul className="divide-y divide-white/10">
 					{titled.slice(0,6).map(p => <PlayerRow key={p.id} p={p} />)}
 				</ul>

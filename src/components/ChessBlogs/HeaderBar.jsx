@@ -7,7 +7,7 @@ export default function HeaderBar({ title }) {
         <span className="h-9 w-9 rounded-full bg-[#232526] border-2 border-[#c29d5d]/40 grid place-items-center text-2xl text-[#e7c27d] shadow">
           <FaBlog />
         </span>
-        <h1 className="text-3xl font-bold text-[#e7c27d] drop-shadow">{title}</h1>
+        <h1 className="text-xl sm:text-3xl font-bold text-[#e7c27d] drop-shadow">{title}</h1>
       </div>
     </div>
   );

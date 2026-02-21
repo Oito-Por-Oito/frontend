@@ -10,7 +10,7 @@ export default function StreamersList() {
   ];
 
   return (
-    <div className="bg-[#181818]/90 border border-[#c29d5d]/20 shadow-lg p-6 rounded-2xl">
+    <div className="bg-[#181818]/90 border border-[#c29d5d]/20 shadow-lg p-4 sm:p-6 rounded-2xl">
       {/* Cabeçalho */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold text-[#c29d5d]">Streamers <span className="text-white">({streamers.length})</span></h2>
@@ -22,7 +22,7 @@ export default function StreamersList() {
         <div key={i} className="flex items-center justify-between py-2 hover:bg-[#232526] px-3 rounded transition-colors">
           <div className="flex items-center gap-3">
             <img src={s.img} alt={s.name} className="w-7 h-7 rounded-full object-cover border border-[#c29d5d]/40" />
-            <span className="font-medium text-white">{s.name}</span>
+            <span className="font-medium text-white truncate max-w-[100px] sm:max-w-none">{s.name}</span>
           </div>
           <div className="flex items-center gap-2">
             <span className="text-gray-300 font-semibold">{s.viewers}</span>

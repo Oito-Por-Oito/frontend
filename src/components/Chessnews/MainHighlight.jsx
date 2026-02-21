@@ -8,7 +8,7 @@ export default function MainHighlight() {
         alt="Destaque"
         className="rounded-xl mb-4 w-full max-h-72 object-cover border border-[#c29d5d]/20 shadow"
       />
-      <h2 className="text-2xl font-bold text-[#e7c27d] mb-2">
+      <h2 className="text-lg sm:text-2xl font-bold text-[#e7c27d] mb-2">
         Aronian derrota Niemann e conquista o prêmio de $200.000 em Las Vegas
       </h2>
     </section>

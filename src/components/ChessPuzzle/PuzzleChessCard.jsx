@@ -11,7 +11,7 @@ export default function PuzzleChessCard() {
       className="bg-gradient-to-r from-[#232526] via-[#1a1a1a] to-[#232526] text-white rounded-2xl p-4 sm:p-6 md:p-8 shadow-xl max-w-4xl w-full mx-auto flex flex-col sm:flex-row items-center gap-6 md:gap-8 border-t-2 border-b-2 border-[#c29d5d]/30"
     >
       {/* Lado esquerdo: tabuleiro */}
-      <div className="w-full max-w-[220px] md:max-w-[280px] flex justify-center items-center mb-4 md:mb-0">
+      <div className="w-full max-w-[160px] sm:max-w-[220px] md:max-w-[280px] flex justify-center items-center mb-2 sm:mb-4 md:mb-0">
         <img
           src="assets/img/puzzle2.png"
           alt="Chess lesson board"

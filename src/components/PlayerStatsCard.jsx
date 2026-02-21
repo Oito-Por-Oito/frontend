@@ -8,7 +8,7 @@ export default function PlayerStatsCard() {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: 'easeOut' }}
-      className="max-w-sm w-full bg-[#232526] text-white rounded-lg shadow-lg p-4 space-y-4 border border-[#444]"
+      className="w-full bg-[#232526] text-white rounded-lg shadow-lg p-3 sm:p-4 space-y-3 sm:space-y-4 border border-[#444]"
     >
       {/* Imagem do jogador */}
       <div className="aspect-w-16 aspect-h-9 rounded overflow-hidden border border-[#444] bg-[#181818] flex items-center justify-center group relative">

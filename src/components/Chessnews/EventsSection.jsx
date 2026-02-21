@@ -31,7 +31,7 @@ const eventos = [
 export default function EventsSection() {
   return (
     <section className="bg-gradient-to-br from-[#232526] via-[#2c2c2c] to-[#232526] rounded-2xl p-5 md:p-6 shadow border border-[#c29d5d]/10 w-full">
-      <h3 className="text-2xl font-bold mb-4 text-[#c29d5d]">Eventos</h3>
+      <h3 className="text-lg sm:text-2xl font-bold mb-3 sm:mb-4 text-[#c29d5d]">Eventos</h3>
 
       <div className="flex flex-col gap-3">
         {eventos.map((evento, index) => (
@@ -42,10 +42,10 @@ export default function EventsSection() {
             <img
               src={evento.imagem}
               alt={evento.nome}
-              className="w-20 h-16 md:w-28 md:h-20 object-cover rounded-2xl border-2 border-[#c29d5d]/30 shadow"
+              className="w-14 h-12 sm:w-20 sm:h-16 md:w-28 md:h-20 object-cover rounded-2xl border-2 border-[#c29d5d]/30 shadow flex-shrink-0"
             />
             <div className="flex-1">
-              <h4 className="font-bold text-lg md:text-xl text-[#e7c27d] mb-1">{evento.nome}</h4>
+              <h4 className="font-bold text-sm sm:text-lg md:text-xl text-[#e7c27d] mb-1 leading-snug">{evento.nome}</h4>
               <p className="text-sm text-gray-400">
                 {evento.inicio} - {evento.fim}
               </p>

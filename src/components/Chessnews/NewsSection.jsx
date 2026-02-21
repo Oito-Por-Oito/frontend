@@ -9,7 +9,7 @@ export default function NewsSection() {
 
   return (
     <section className="bg-gradient-to-br from-[#232526] via-[#2c2c2c] to-[#232526] rounded-2xl p-5 md:p-6 shadow border border-[#c29d5d]/10 w-full">
-      <h3 className="text-2xl font-bold mb-4 text-[#c29d5d]">Notícias</h3>
+      <h3 className="text-lg sm:text-2xl font-bold mb-3 sm:mb-4 text-[#c29d5d]">Notícias</h3>
 
       {/* Destaque principal */}
       <div className="flex flex-col sm:flex-row gap-4 mb-4">
@@ -32,7 +32,7 @@ export default function NewsSection() {
         {headlines.map((title, index) => (
           <div
             key={index}
-            className="py-3 text-base md:text-lg font-semibold cursor-pointer text-white/90 hover:underline"
+            className="py-2 sm:py-3 text-sm sm:text-base md:text-lg font-semibold cursor-pointer text-white/90 hover:underline"
           >
             {title}
           </div>
