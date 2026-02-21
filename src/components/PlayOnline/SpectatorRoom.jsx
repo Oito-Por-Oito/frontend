@@ -140,10 +140,10 @@ export default function SpectatorRoom({ gameId }) {
               animate={{ scale: 1, opacity: 1 }}
               className="p-6 rounded-xl text-center bg-gradient-to-br from-[#2a2a2a] to-[#1e1e1e] border border-[#c29d5d]/50"
             >
-              <div className="text-4xl mb-2">
+              <div className="text-2xl sm:text-4xl mb-2">
                 {game.result === '1/2-1/2' ? '🤝' : '🏆'}
               </div>
-              <h3 className="text-2xl font-bold text-white mb-1">{resultText}</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-white mb-1">{resultText}</h3>
               <p className="text-gray-400 text-sm">{game.result}</p>
               {game.result_reason && (
                 <p className="text-gray-500 text-xs mt-1 capitalize">

@@ -124,8 +124,8 @@ export default function OnlineChessBoard({
   };
 
   return (
-    <div className="relative">
-      <div className="grid grid-cols-8 border-2 border-[#c29d5d] rounded-lg overflow-hidden shadow-2xl">
+    <div className="relative w-full max-w-[min(100%,calc(100vh-200px))] mx-auto">
+      <div className="grid grid-cols-8 w-full aspect-square border-2 border-[#c29d5d] rounded-lg overflow-hidden shadow-2xl">
         {displayRanks.map((rank, rankIdx) => (
           displayFiles.map((file, fileIdx) => {
             const square = file + rank;

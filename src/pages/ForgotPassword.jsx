@@ -41,7 +41,7 @@ export default function ForgotPassword() {
           className="relative w-full max-w-[380px] mx-4"
         >
           <Card variant="elevated" className="border-2 border-gold/40 px-6 sm:px-8 py-10 flex flex-col items-center text-center">
-            <div className="text-5xl mb-4">📧</div>
+            <div className="text-3xl sm:text-5xl mb-4">📧</div>
             <h1 className="text-2xl font-bold text-gold mb-4">Email Enviado!</h1>
             <p className="text-muted-foreground mb-6">
               Se existe uma conta com o email <span className="text-gold">{email}</span>, 

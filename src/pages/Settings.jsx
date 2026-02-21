@@ -13,7 +13,7 @@ import { BoardThemeSelector, SoundSettings } from '@/components/settings';
 export default function Settings() {
   return (
     <MainLayout>
-      <div className="min-h-screen bg-background py-8 px-4">
+      <div className="min-h-screen bg-background py-6 sm:py-8 px-3 sm:px-4 overflow-x-hidden">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <motion.div
@@ -34,7 +34,7 @@ export default function Settings() {
                 <FiSettings className="w-6 h-6 text-gold" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-foreground">Configurações</h1>
+                <h1 className="text-xl sm:text-2xl font-bold text-foreground">Configurações</h1>
                 <p className="text-muted-foreground">
                   Personalize sua experiência de jogo
                 </p>
@@ -49,7 +49,7 @@ export default function Settings() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-surface-primary border border-surface-secondary rounded-2xl p-6"
+              className="bg-surface-primary border border-surface-secondary rounded-2xl p-4 sm:p-6"
             >
               <PieceThemeSelector />
             </motion.section>
@@ -59,7 +59,7 @@ export default function Settings() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-surface-primary border border-surface-secondary rounded-2xl p-6"
+              className="bg-surface-primary border border-surface-secondary rounded-2xl p-4 sm:p-6"
             >
               <SoundSettings />
             </motion.section>
@@ -69,7 +69,7 @@ export default function Settings() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="bg-surface-primary border border-surface-secondary rounded-2xl p-6"
+              className="bg-surface-primary border border-surface-secondary rounded-2xl p-4 sm:p-6"
             >
               <BoardThemeSelector />
             </motion.section>

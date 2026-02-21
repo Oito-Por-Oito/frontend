@@ -202,10 +202,10 @@ export default function GameRoom({ gameId, onLeaveGame, onRematchAccepted }) {
                 }
               `}
             >
-              <div className="text-4xl mb-2">
+              <div className="text-2xl sm:text-4xl mb-2">
                 {game.winner_id === profile?.id ? '🏆' : game.result === '1/2-1/2' ? '🤝' : '😔'}
               </div>
-              <h3 className="text-2xl font-bold text-white mb-1">{resultText}</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-white mb-1">{resultText}</h3>
               <p className="text-gray-400 text-sm">{game.result}</p>
               
               {/* Oferta de rematch recebida */}

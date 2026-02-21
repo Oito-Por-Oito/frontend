@@ -230,7 +230,7 @@ function ChessBoard({ stockfishLevel, gameStarted, setParentGame, setParentLog }
   const renderBoard = () => {
     return (
       <div className="relative">
-        <div className="grid grid-cols-8 w-full max-w-[320px] sm:max-w-[380px] md:max-w-[650px] aspect-square border-4 border-gold rounded-2xl shadow-2xl overflow-hidden">
+        <div className="grid grid-cols-8 w-full max-w-[320px] sm:max-w-[420px] md:max-w-[520px] lg:max-w-[min(500px,calc(100vh-140px))] aspect-square border-4 border-gold rounded-2xl shadow-2xl overflow-hidden">
           {boardData.map((square, idx) => {
             const x = idx % 8;
             const y = Math.floor(idx / 8);

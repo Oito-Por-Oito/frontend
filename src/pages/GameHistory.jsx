@@ -82,9 +82,9 @@ export default function GameHistory() {
             <Filter size={18} className="text-gray-400" />
             
             {/* Result filter */}
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <span className="text-sm text-gray-400">Resultado:</span>
-              <div className="flex gap-1">
+              <div className="flex flex-wrap gap-1">
                 {[
                   { value: 'all', label: 'Todos' },
                   { value: 'wins', label: 'Vitórias', icon: '🏆' },
@@ -108,7 +108,7 @@ export default function GameHistory() {
             </div>
 
             {/* Time control filter */}
-            <div className="flex items-center gap-2 ml-auto">
+            <div className="flex items-center gap-2 sm:ml-auto w-full sm:w-auto">
               <Clock size={14} className="text-gray-400" />
               <select
                 value={filters.timeControl}
@@ -164,7 +164,7 @@ export default function GameHistory() {
             </motion.div>
           ) : (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {games.map((game, index) => (
                   <motion.div
                     key={game.id}

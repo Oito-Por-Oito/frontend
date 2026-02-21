@@ -291,7 +291,7 @@ function ChessBoardGame({
 
   return (
     <div className="relative">
-      <div className="grid grid-cols-8 w-[280px] sm:w-[340px] md:w-[400px] lg:w-[min(500px,calc(100vh-140px))] aspect-square border-4 border-gold rounded-2xl shadow-2xl overflow-hidden">
+      <div className="grid grid-cols-8 w-full max-w-[280px] sm:max-w-[340px] md:max-w-[400px] lg:max-w-[min(500px,calc(100vh-140px))] aspect-square border-4 border-gold rounded-2xl shadow-2xl overflow-hidden">
         {boardSquares.map(({ square, file, rank, piece, isLight }) => {
           const isSelected = selectedSquare === square;
           const isLastMoveFrom = square === lastMove.from;

@@ -6,9 +6,9 @@ import React from "react";
  */
 export default function ChessBoardStatic({ size = "default" }) {
   const sizeClasses = {
-    small: "w-[280px] md:w-[380px]",
-    default: "w-[380px] md:w-[650px]",
-    large: "w-[450px] md:w-[750px]",
+    small: "w-full max-w-[280px] sm:max-w-[320px] md:max-w-[380px]",
+    default: "w-full max-w-[320px] sm:max-w-[420px] md:max-w-[650px]",
+    large: "w-full max-w-[360px] sm:max-w-[480px] md:max-w-[750px]",
   };
 
   return (

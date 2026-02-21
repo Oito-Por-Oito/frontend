@@ -3,7 +3,7 @@ import React from "react";
 export default function ChessBoard() {
   return (
     <div className="relative my-2">
-      <div className="grid grid-cols-8 w-[380px] md:w-[650px] border-4 border-gold rounded-2xl shadow-2xl overflow-hidden">
+      <div className="grid grid-cols-8 w-full max-w-[320px] sm:max-w-[420px] md:max-w-[650px] border-4 border-gold rounded-2xl shadow-2xl overflow-hidden">
         {[...Array(64)].map((_, i) => {
           const x = i % 8;
           const y = Math.floor(i / 8);

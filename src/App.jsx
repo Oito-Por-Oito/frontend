@@ -15,7 +15,7 @@ import LoadingFallback from "./components/ui/LoadingFallback";
 // Componente para visitantes (conteúdo original da home)
 function HomeContent() {
   return (
-    <main className="flex flex-col items-center bg-[#2c2c2c] px-4 md:px-8 pt-8">
+    <main className="flex flex-col items-center bg-[#2c2c2c] px-2 sm:px-4 md:px-8 pt-6 sm:pt-8 overflow-x-hidden">
       {/* CONTAINER PRINCIPAL - Grid responsivo */}
       <div className="grid grid-cols-1 sidebar:grid-cols-[280px_1fr_280px] w-full max-w-[1650px] gap-6 sidebar:gap-12 xl:gap-[90px]">
         {/* LADO ESQUERDO: Top Players - oculto em telas < 1315px */}
@@ -24,7 +24,7 @@ function HomeContent() {
         </div>
 
         {/* CENTRO: Tabuleiro + Cards */}
-        <div className="flex flex-col w-full max-w-[900px] mx-auto items-center gap-8">
+        <div className="flex flex-col w-full max-w-[900px] mx-auto items-center gap-4 sm:gap-8">
           {/* TABULEIRO */}
           <ChessBoardWithCTA />
 

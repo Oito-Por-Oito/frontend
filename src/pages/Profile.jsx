@@ -135,9 +135,9 @@ export default function Profile() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-3xl font-bold text-gold mb-8">Meu Perfil</h1>
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gold mb-6 sm:mb-8">Meu Perfil</h1>
 
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
             {/* Avatar Section */}
             <Card variant="elevated" className="border border-gold/30 p-6 flex flex-col items-center">
               <div className="relative mb-4">
@@ -289,7 +289,7 @@ export default function Profile() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-4 mt-4">
+              <div className="grid grid-cols-3 gap-2 sm:gap-4 mt-4">
                 <div className="text-center p-4 bg-green-500/20 rounded-lg">
                   <div className="text-2xl font-bold text-green-400">{profile?.wins || 0}</div>
                   <div className="text-sm text-muted-foreground">Vitórias</div>

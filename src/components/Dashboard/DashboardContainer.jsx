@@ -28,7 +28,7 @@ export default function DashboardContainer() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="w-full max-w-[1400px] mx-auto px-4 md:px-8 py-8"
+      className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 md:px-8 py-6 sm:py-8"
     >
       {/* Grid responsivo */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">

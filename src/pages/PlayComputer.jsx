@@ -114,7 +114,7 @@ export default function PlayComputer() {
             ) : (
               <div className="w-[280px] sm:w-[340px] md:w-[400px] lg:w-[min(500px,calc(100vh-140px))] aspect-square bg-surface-secondary/50 rounded-2xl border-4 border-gold/30 flex items-center justify-center">
                 <div className="text-center text-muted-foreground">
-                  <div className="text-5xl mb-3">♟️</div>
+                  <div className="text-3xl sm:text-5xl mb-3">♟️</div>
                   <p className="text-base">Escolha um bot para começar</p>
                 </div>
               </div>

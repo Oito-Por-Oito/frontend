@@ -71,7 +71,7 @@ export default function MatchmakingLobby({
       animate={{ opacity: 1, y: 0 }}
       className="bg-gradient-to-br from-[#232526] via-[#1a1a1a] to-[#232526] p-6 rounded-2xl shadow-xl border border-[#c29d5d]/30"
     >
-      <h2 className="text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3 text-[#e7c27d]">
+      <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3 text-[#e7c27d]">
         ⚔️ Jogar Online
       </h2>
 

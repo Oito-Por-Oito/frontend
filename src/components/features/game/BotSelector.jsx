@@ -37,7 +37,7 @@ export default function BotSelector({
   const featuredBot = bots[0];
 
   return (
-    <Card variant="gradient" className="space-y-4 p-4" style={{ width: 335 }}>
+    <Card variant="gradient" className="space-y-4 p-4 w-full lg:w-[335px]">
       {/* Bot em destaque */}
       <div className="flex items-center gap-4 bg-surface-secondary/80 rounded-xl p-3 border border-gold/30 shadow">
         <Avatar 

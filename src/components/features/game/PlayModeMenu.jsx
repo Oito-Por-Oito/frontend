@@ -19,14 +19,14 @@ export default function PlayModeMenu({ menuItems = DEFAULT_MENU_ITEMS }) {
   const navigate = useNavigate();
 
   return (
-    <div className="flex-shrink-0 flex flex-col h-full w-full max-w-[370px]">
+    <div className="flex-shrink-0 flex flex-col h-full w-full sm:max-w-[370px]">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: 'easeOut' }}
       >
         <Card variant="gradient" className="p-4 flex flex-col h-full">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4 flex items-center gap-2 text-gold-light drop-shadow">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 flex items-center gap-2 text-gold-light drop-shadow">
             ♟️ Jogue Xadrez
           </h2>
           

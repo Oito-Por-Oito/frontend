@@ -158,7 +158,7 @@ export default function GameReplay() {
           </motion.div>
 
           {/* Main content */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 overflow-x-hidden">
             {/* Evaluation bar (desktop only) */}
             {analysisResults && (
               <div className="hidden lg:block lg:col-span-1">
@@ -167,7 +167,7 @@ export default function GameReplay() {
             )}
 
             {/* Board and controls */}
-            <div className={`${analysisResults ? 'lg:col-span-6' : 'lg:col-span-7'} space-y-4`}>
+            <div className={`${analysisResults ? 'lg:col-span-6' : 'lg:col-span-7'} space-y-4 min-w-0`}>
               {/* Player info - Black (top) */}
               <PlayerBar 
                 player={game.black_player} 
@@ -203,7 +203,7 @@ export default function GameReplay() {
             </div>
 
             {/* Sidebar */}
-            <div className={`${analysisResults ? 'lg:col-span-5' : 'lg:col-span-5'} space-y-4`}>
+            <div className={`${analysisResults ? 'lg:col-span-5' : 'lg:col-span-5'} space-y-4 min-w-0`}>
               {/* Analysis panel */}
               <AnalysisPanel
                 isAnalyzing={isAnalyzing}
