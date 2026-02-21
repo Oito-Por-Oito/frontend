@@ -12,6 +12,7 @@ const Profile = lazy(() => import('./pages/Profile'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const RatingsPlayers = lazy(() => import('./pages/RatingsPlayers'));
 const Settings = lazy(() => import('./pages/Settings'));
+const Donate = lazy(() => import('./pages/Donate'));
 const NotFoundPage = lazy(() => import('./pages/404Page'));
 
 // Jogo
@@ -159,6 +160,9 @@ export default function AppRoutes() {
 
           {/* Mais */}
           <Route path="/mais" element={<ChessMore />} />
+
+          {/* Donate */}
+          <Route path="/donate" element={<Donate />} />
           <Route path="/mais/aberturas" element={<MaisAberturas />} />
           <Route path="/mais/apps" element={<MaisApps />} />
           <Route path="/mais/biblioteca" element={<LearnLibrary />} />
