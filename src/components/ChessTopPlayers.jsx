@@ -1,7 +1,8 @@
-import { useState } from "react";
+import React, { useState, useMemo, useCallback, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import chessData from "../data/chessData"; // Adjust the path as necessary
+import chessData from "../data/chessData";
+import { Button } from '@/components/ui';
 
 const MODES = ["Standard", "Rapid", "Blitz"];
 const CATEGORIES = ["Open", "Women", "Juniors"];
@@ -9,10 +10,28 @@ const CATEGORIES = ["Open", "Women", "Juniors"];
 const getFlagUrl = (countryCode) =>
   `https://flagcdn.com/w40/${countryCode.toLowerCase()}.png`;
 
-const ChessTopPlayers = () => {
+const ChessTopPlayers = memo(() => {
   const [mode, setMode] = useState("Standard");
   const [category, setCategory] = useState("Open");
   const navigate = useNavigate();
+
+  // Memoize filtered players to prevent recalculation on re-renders
+  const filteredPlayers = useMemo(() => {
+    return chessData?.[mode]?.[category]?.slice(0, 10) || [];
+  }, [mode, category]);
+
+  // Stable callbacks for button handlers
+  const handleModeChange = useCallback((newMode) => {
+    setMode(newMode);
+  }, []);
+
+  const handleCategoryChange = useCallback((newCategory) => {
+    setCategory(newCategory);
+  }, []);
+
+  const handleSeeMore = useCallback(() => {
+    navigate("/ratings-players");
+  }, [navigate]);
 
   return (
     <motion.div
@@ -21,18 +40,18 @@ const ChessTopPlayers = () => {
       transition={{ duration: 0.7, ease: 'easeOut' }}
       className="text-white"
     >
-      {/* ...existing code... */}
       <h2 className="text-xl font-bold mb-4">Top Chess Players</h2>
 
-      <div className="flex flex-wrap gap-2 mb-4">
+      {/* Mode Buttons */}
+      <div className="flex gap-2 mb-4">
         {MODES.map((m) => (
           <button
             key={m}
-            onClick={() => setMode(m)}
+            onClick={() => handleModeChange(m)}
             className={
               mode === m
-                ? "bg-[#d4af37] text-black px-3 py-1 rounded-full text-sm"
-                : "bg-[#2c2c2c] border border-[#444] px-3 py-1 rounded-full text-sm"
+                ? "bg-gold text-black px-4 py-1 rounded-full text-sm font-medium"
+                : "bg-surface-tertiary border border-surface-tertiary px-4 py-1 rounded-full text-sm hover:border-gold/50 transition-colors"
             }
           >
             {m}
@@ -40,15 +59,16 @@ const ChessTopPlayers = () => {
         ))}
       </div>
 
+      {/* Category Buttons */}
       <div className="flex gap-2 mb-4 flex-wrap">
         {CATEGORIES.map((cat) => (
           <button
             key={cat}
-            onClick={() => setCategory(cat)}
+            onClick={() => handleCategoryChange(cat)}
             className={
               category === cat
-                ? "bg-[#444] text-sm px-3 py-1 rounded-full border border-[#d4af37] text-[#d4af37]"
-                : "bg-[#444] text-sm px-3 py-1 rounded-full"
+                ? "bg-surface-tertiary text-sm px-3 py-1 rounded-full border border-gold text-gold font-medium"
+                : "bg-surface-tertiary text-sm px-3 py-1 rounded-full hover:border-gold/50 border border-transparent transition-colors"
             }
           >
             Top {cat}
@@ -56,57 +76,57 @@ const ChessTopPlayers = () => {
         ))}
       </div>
 
-      {/* Lista de jogadores */}
-      <div className="overflow-x-auto">
-      <table className="w-full text-sm min-w-[200px]">
+      {/* Players Table */}
+      <table className="w-full text-sm">
         <thead>
-          <tr className="text-left text-[#d4af37]">
+          <tr className="text-left text-gold">
             <th>#</th>
             <th>Jogador</th>
             <th className="text-right">Rating</th>
           </tr>
         </thead>
         <tbody>
-          {Array.isArray(chessData?.[mode]?.[category]) && chessData[mode][category].length > 0 ? (
-            chessData[mode][category].slice(0, 10).map((player, idx) => (
+          {filteredPlayers.length > 0 ? (
+            filteredPlayers.map((player, idx) => (
               <tr key={player.name}>
-                <td className="py-1 px-2 font-bold text-[#d4af37]">{idx + 1}</td>
-                <td className="py-1 px-2">
-                  <div className="flex items-center gap-2">
-                    <img
-                      src={getFlagUrl(player.country)}
-                      alt={player.country}
-                      className="w-5 h-3 object-cover rounded-sm border border-[#444] bg-[#232526] flex-shrink-0"
-                    />
-                    <span className="text-white font-semibold truncate">{player.name}</span>
-                  </div>
+                <td className="py-1 px-2 font-bold text-gold">{idx + 1}</td>
+                <td className="py-1 px-2 flex items-center gap-2">
+                  <img
+                    src={getFlagUrl(player.country)}
+                    alt={player.country}
+                    loading="lazy"
+                    className="w-6 h-4 object-cover rounded-sm border border-surface-tertiary bg-surface-secondary"
+                  />
+                  <span className="text-white font-semibold">{player.name}</span>
                 </td>
-                <td className="py-1 px-2 text-right font-bold text-[#d4af37]">
+                <td className="py-1 px-2 text-right font-bold text-gold">
                   {player.rating}
                 </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan={3} className="py-6 text-center text-gray-400">
+              <td colSpan={3} className="py-6 text-center text-text-muted">
                 Sem dados para esta modalidade/categoria.
               </td>
             </tr>
           )}
         </tbody>
       </table>
-      </div>
-      {/* Botão See more */}
+
+      {/* See More */}
       <div className="flex justify-center mt-4">
         <button
-          onClick={() => navigate("/ratings-players")}
-          className="text-[#d4af37] font-semibold px-4 rounded hover:underline focus:outline-none bg-transparent border-none"
+          onClick={handleSeeMore}
+          className="text-gold font-semibold px-4 rounded hover:underline focus:outline-none bg-transparent border-none"
         >
           See more
         </button>
       </div>
     </motion.div>
   );
-};
+});
+
+ChessTopPlayers.displayName = 'ChessTopPlayers';
 
 export default ChessTopPlayers;

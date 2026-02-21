@@ -1,14 +1,14 @@
-
-import React from 'react';
+import React, { memo } from 'react';
 import { motion } from "framer-motion";
+import { OptimizedImage } from '@/components/ui';
 
-export default function ChessPuzzleCard() {
+const ChessPuzzleCard = memo(() => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: 'easeOut' }}
-      className="bg-gradient-to-r from-[#232526] via-[#1a1a1a] to-[#232526] text-white rounded-2xl p-4 sm:p-6 md:p-8 shadow-xl max-w-4xl w-full mx-auto flex flex-col sm:flex-row items-center gap-6 md:gap-8 border-t-2 border-b-2 border-[#c29d5d]/30"
+      className="bg-gradient-to-r from-[#232526] via-[#1a1a1a] to-[#232526] text-white rounded-2xl p-4 md:p-8 shadow-xl max-w-4xl w-full mx-auto flex flex-col md:flex-row items-center gap-6 md:gap-8 border-t-2 border-b-2 border-[#c29d5d]/30"
     >
       {/* Lado esquerdo: texto + botão + citação */}
       <div className="flex flex-col items-start gap-4 md:gap-6 w-full max-w-sm">
@@ -20,7 +20,7 @@ export default function ChessPuzzleCard() {
         </div>
 
         <div className="flex items-start gap-4">
-          <img
+          <OptimizedImage
             src="assets/img/hikaru-nakamura.jpg"
             alt="Hikaru Nakamura"
             className="w-16 h-16 object-cover rounded-md border border-[#c29d5d]/40 bg-[#232526] shadow"
@@ -38,8 +38,8 @@ export default function ChessPuzzleCard() {
       </div>
 
       {/* Lado direito: tabuleiro */}
-      <div className="w-full max-w-[140px] sm:max-w-[180px] md:max-w-[240px] flex justify-center items-center mt-2 sm:mt-4 md:mt-0">
-        <img
+      <div className="w-full max-w-[180px] md:max-w-[240px] flex justify-center items-center mt-4 md:mt-0">
+        <OptimizedImage
           src="assets/img/puzzle1.png"
           alt="Chess puzzle board"
           className="rounded-lg w-full shadow-lg border border-[#c29d5d]/30 bg-[#232526]"
@@ -47,4 +47,8 @@ export default function ChessPuzzleCard() {
       </div>
     </motion.div>
   );
-}
+});
+
+ChessPuzzleCard.displayName = 'ChessPuzzleCard';
+
+export default ChessPuzzleCard;

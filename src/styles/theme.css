@@ -1,0 +1,145 @@
+/* ============================================
+   OitoPorOito Design System - CSS Variables
+   ============================================ */
+
+:root {
+  /* ============ CORES PRIMÁRIAS - DOURADO ============ */
+  --gold: 38 52% 56%;              /* #c29d5d - Dourado principal */
+  --gold-light: 40 60% 70%;        /* #e7c27d - Dourado claro */
+  --gold-lighter: 43 100% 85%;     /* #ffe7b3 - Dourado muito claro */
+  --gold-muted: 38 52% 56% / 0.3;  /* Dourado com transparência */
+  --gold-strong: 38 52% 56% / 0.4; /* Dourado mais visível */
+
+  /* ============ CORES DE BACKGROUND ============ */
+  --surface-primary: 0 0% 10%;     /* #1a1a1a - Fundo principal */
+  --surface-secondary: 180 2% 14%; /* #232526 - Fundo secundário */
+  --surface-tertiary: 0 0% 17%;    /* #2c2c2c - Fundo terciário */
+  --surface-card: 0 0% 9%;         /* #181818 - Fundo de cards */
+
+  /* ============ GRADIENTES ============ */
+  --gradient-page: linear-gradient(
+    to bottom right,
+    hsl(var(--surface-secondary)),
+    hsl(var(--surface-primary)),
+    hsl(var(--surface-secondary))
+  );
+  --gradient-card: linear-gradient(
+    to bottom right,
+    hsl(var(--surface-secondary)),
+    hsl(var(--surface-tertiary)),
+    hsl(var(--surface-secondary))
+  );
+
+  /* ============ CORES DE TEXTO ============ */
+  --text-primary: 0 0% 100%;       /* #ffffff - Texto principal */
+  --text-secondary: 218 11% 65%;   /* #9ca3af - Texto secundário */
+  --text-muted: 218 11% 45%;       /* #6b7280 - Texto discreto */
+  --text-gold: 40 60% 70%;         /* Texto dourado */
+
+  /* ============ BORDAS ============ */
+  --border-gold: 1px solid hsl(var(--gold-muted));
+  --border-gold-strong: 2px solid hsl(var(--gold-strong));
+
+  /* ============ SOMBRAS ============ */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+
+  /* ============ ESPAÇAMENTOS ============ */
+  --spacing-page: clamp(1rem, 4vw, 4rem);
+  --max-width-content: 1400px;
+  --max-width-narrow: 900px;
+
+  /* ============ BORDER RADIUS ============ */
+  --radius: 0.75rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+
+  /* ============ CORES SEMÂNTICAS (shadcn compatible) ============ */
+  --background: var(--surface-primary);
+  --foreground: var(--text-primary);
+  
+  --card: var(--surface-card);
+  --card-foreground: var(--text-primary);
+  
+  --popover: var(--surface-secondary);
+  --popover-foreground: var(--text-primary);
+  
+  --primary: var(--gold);
+  --primary-foreground: 0 0% 10%;
+  
+  --secondary: var(--surface-tertiary);
+  --secondary-foreground: var(--text-primary);
+  
+  --muted: var(--surface-tertiary);
+  --muted-foreground: var(--text-secondary);
+  
+  --accent: var(--gold-light);
+  --accent-foreground: 0 0% 10%;
+  
+  --destructive: 0 62% 50%;
+  --destructive-foreground: 0 0% 100%;
+  
+  --border: var(--gold-muted);
+  --input: var(--surface-tertiary);
+  --ring: var(--gold);
+
+  /* ============ BADGES - Títulos de Xadrez ============ */
+  --badge-gm: 0 72% 51%;           /* Vermelho - GM */
+  --badge-im: 25 95% 53%;          /* Laranja - IM */
+  --badge-fm: 38 92% 50%;          /* Amarelo - FM */
+  --badge-nm: 142 71% 45%;         /* Verde - NM */
+  --badge-cm: 217 91% 60%;         /* Azul - CM */
+}
+
+/* ============ CLASSES UTILITÁRIAS ============ */
+
+/* Container responsivo padrão */
+.page-container {
+  @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* Container estreito */
+.container-narrow {
+  @apply w-full max-w-4xl mx-auto px-4 sm:px-6;
+}
+
+/* Grid principal com sidebar */
+.grid-with-sidebar {
+  @apply grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 lg:gap-8;
+}
+
+/* Grid 3 colunas */
+.grid-three-cols {
+  @apply grid grid-cols-1 lg:grid-cols-[280px_1fr_280px] gap-6 lg:gap-12;
+}
+
+/* Visibilidade responsiva */
+.desktop-only {
+  @apply hidden lg:block;
+}
+
+.mobile-only {
+  @apply block lg:hidden;
+}
+
+/* Card base com gradiente */
+.card-gradient {
+  background: var(--gradient-card);
+  @apply rounded-2xl border border-gold/20 shadow-lg;
+}
+
+/* Card elevado */
+.card-elevated {
+  @apply bg-surface-card rounded-2xl border border-gold/20 shadow-xl;
+}
+
+/* Texto com gradiente dourado */
+.text-gold-gradient {
+  @apply bg-gradient-to-r from-gold to-gold-light bg-clip-text text-transparent;
+}

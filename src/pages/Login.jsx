@@ -1,101 +1,179 @@
-
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+import { Button, Input, Card } from "@/components/ui";
+import { useAuth } from '@/hooks/useAuth';
 
 export default function Login() {
+  const navigate = useNavigate();
+  const { signIn, signInWithGoogle } = useAuth();
+  
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      const { error: signInError } = await signIn(email, password);
+      
+      if (signInError) {
+        if (signInError.message.includes('Invalid login credentials')) {
+          setError('Email ou senha incorretos.');
+        } else if (signInError.message.includes('Email not confirmed')) {
+          setError('Por favor, confirme seu email antes de fazer login.');
+        } else {
+          setError(signInError.message);
+        }
+      } else {
+        navigate('/');
+      }
+    } catch (err) {
+      setError('Erro ao fazer login. Tente novamente.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setError('');
+    try {
+      const { error: googleError } = await signInWithGoogle();
+      if (googleError) {
+        setError(googleError.message);
+      }
+    } catch (err) {
+      setError('Erro ao conectar com Google.');
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#232526] via-[#1e1e1e] to-[#c29d5d]/10 text-white">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-surface-secondary via-surface-primary to-gold/10 text-foreground">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.7, ease: 'easeOut' }}
-        className="relative w-full max-w-[380px] mx-4 bg-[#121212] rounded-2xl shadow-2xl border-2 border-[#c29d5d]/40 px-6 sm:px-8 py-10 flex flex-col items-center"
+        className="relative w-full max-w-[380px] mx-4"
       >
-        {/* Sign Up link no topo direito */}
-        <a
-          href="/signup"
-          className="absolute top-5 right-7 text-sm text-[#c29d5d] font-semibold hover:underline"
-        >
-          Sign Up
-        </a>
+        <Card variant="elevated" className="border-2 border-gold/40 px-6 sm:px-8 py-10 flex flex-col items-center">
+          {/* Sign Up link no topo direito */}
+          <a
+            href="/signup"
+            className="absolute top-5 right-7 text-sm text-gold font-semibold hover:underline"
+          >
+            Sign Up
+          </a>
 
-        {/* Logo + Título */}
-        <div className="text-center mb-6">
-          <img
-            src="/assets/logo.png"
-            alt="Logo OitoPorOito"
-            className="w-16 mx-auto mb-3 drop-shadow-lg rounded-full border border-[#c29d5d] bg-[#232526] p-1"
-          />
-          <h1 className="text-2xl font-bold text-[#c29d5d]">Log In to Your Account</h1>
-        </div>
-
-        {/* Formulário de login */}
-        <div className="space-y-4 w-full mb-2">
-          <input
-            type="text"
-            placeholder="Username or Email"
-            className="w-full p-2 bg-[#232526] text-sm text-white rounded-lg border border-[#c29d5d]/30 focus:outline-none focus:ring-2 focus:ring-[#c29d5d]"
-          />
-          <div className="relative">
-            <input
-              type={showPassword ? 'text' : 'password'}
-              placeholder="Password"
-              className="w-full p-2 bg-[#232526] text-sm text-white rounded-lg border border-[#c29d5d]/30 focus:outline-none focus:ring-2 focus:ring-[#c29d5d]"
+          {/* Logo + Título */}
+          <div className="text-center mb-6">
+            <img
+              src="/assets/logo.png"
+              alt="Logo OitoPorOito"
+              className="w-16 mx-auto mb-3 drop-shadow-lg rounded-full border border-gold bg-surface-secondary p-1"
             />
-            <button
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-2 flex items-center text-gray-400 text-sm"
-              type="button"
-            >
-              {showPassword ? '🙈' : '👁️'}
-            </button>
+            <h1 className="text-2xl font-bold text-gold">Log In to Your Account</h1>
           </div>
-          <div className="flex justify-between items-center text-xs text-gray-400">
-            <label className="flex items-center gap-1">
-              <input type="checkbox" className="form-checkbox accent-[#c29d5d]" />
-              Remember me
-            </label>
-            <a href="#" className="hover:underline text-[#c29d5d]">
-              Forgot Password?
+
+          {/* Error message */}
+          {error && (
+            <div className="w-full mb-4 p-3 bg-red-500/20 border border-red-500/50 rounded-lg text-red-400 text-sm text-center">
+              {error}
+            </div>
+          )}
+
+          {/* Formulário de login */}
+          <form onSubmit={handleSubmit} className="space-y-4 w-full mb-2">
+            <Input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              disabled={loading}
+            />
+            <div className="relative">
+              <Input
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                disabled={loading}
+              />
+              <button
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-2 flex items-center text-muted-foreground text-sm"
+                type="button"
+              >
+                {showPassword ? '🙈' : '👁️'}
+              </button>
+            </div>
+            <div className="flex justify-between items-center text-xs text-muted-foreground">
+              <label className="flex items-center gap-1">
+                <input type="checkbox" className="form-checkbox accent-gold" />
+                Remember me
+              </label>
+              <a href="/forgot-password" className="hover:underline text-gold">
+                Forgot Password?
+              </a>
+            </div>
+
+            <Button 
+              variant="primary" 
+              size="lg" 
+              className="w-full" 
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? 'Logging in...' : 'Log In'}
+            </Button>
+          </form>
+
+          {/* Separador */}
+          <div className="text-center text-muted-foreground text-sm mb-2">OR</div>
+
+          {/* Botões sociais */}
+          <div className="space-y-2 w-full">
+            <Button 
+              variant="secondary" 
+              className="w-full justify-center"
+              onClick={handleGoogleLogin}
+              disabled={loading}
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/d/dc/Google-g-icon.png"
+                alt="Google"
+                className="w-5 h-5 mr-3"
+              />
+              Log in with Google
+            </Button>
+            <Button 
+              variant="secondary" 
+              className="w-full justify-center opacity-50 cursor-not-allowed"
+              disabled
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/3/31/Apple_logo_white.svg"
+                alt="Apple"
+                className="w-5 h-6 mr-3"
+              />
+              Log in with Apple (Coming Soon)
+            </Button>
+          </div>
+
+          {/* Footer */}
+          <div className="text-center text-sm text-muted-foreground mt-5">
+            New here?{' '}
+            <a href="/signup" className="text-gold font-medium hover:underline">
+              Sign up
             </a>
           </div>
-        </div>
-
-        <button className="w-full bg-gradient-to-r from-[#e7c27d] to-[#c29d5d] text-black py-2.5 rounded-xl text-lg font-bold mb-3 shadow-lg hover:from-[#ffe7b3] hover:to-[#e7c27d] hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#c29d5d]">
-          Log In
-        </button>
-
-        {/* Separador */}
-        <div className="text-center text-gray-500 text-sm mb-2">OR</div>
-
-        {/* Botões sociais */}
-        <div className="space-y-2 w-full">
-          <button className="flex items-center justify-center w-full bg-[#232526] hover:bg-[#333] border border-[#c29d5d]/30 text-white py-2 rounded-xl text-sm font-semibold">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/d/dc/Google-g-icon.png"
-              alt="Google"
-              className="w-5 h-5 mr-3"
-            />
-            Log in with Google
-          </button>
-          <button className="flex items-center justify-center w-full bg-[#232526] hover:bg-[#333] border border-[#c29d5d]/30 text-white py-2 rounded-xl text-sm font-semibold">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/3/31/Apple_logo_white.svg"
-              alt="Apple"
-              className="w-5 h-6 mr-3"
-            />
-            Log in with Apple
-          </button>
-        </div>
-
-        {/* Footer */}
-        <div className="text-center text-sm text-gray-400 mt-5">
-          New here?{' '}
-          <a href="/signup" className="text-[#c29d5d] font-medium hover:underline">
-            Sign up
-          </a>
-        </div>
+        </Card>
       </motion.div>
     </div>
   );

@@ -1,34 +1,72 @@
 import React from "react";
+import GameTimer from "./GameTimer";
 
-export default function PlayerInfo({ avatar, name, rating, flagUrl, flagAlt = "", isBot }) {
+export default function PlayerInfo({ 
+  avatar, 
+  name, 
+  rating, 
+  flagUrl, 
+  isBot = false,
+  time,
+  isActive = false
+}) {
+  const isEmoji = typeof avatar === 'string' && avatar.length <= 2;
+
   return (
     <div
-      className={`flex items-center justify-start w-full border border-[#d4af37] bg-[#232526]/70 rounded-xl px-3 py-2 shadow-md ${isBot ? "mb-1" : "mt-4"}`}
-      style={{ minWidth: 0 }}
+      className={`
+        flex items-center justify-between w-full 
+        bg-surface-secondary/80 border rounded-xl px-4 py-3 shadow-md
+        ${isActive ? 'border-gold' : 'border-surface-tertiary'}
+        ${isBot ? "mb-2" : "mt-2"}
+      `}
     >
-      <div className="flex items-center gap-2 min-w-0">
-        <img
-          src={avatar}
-          alt={isBot ? "Bot avatar" : "User avatar"}
-          className="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover border border-[#d4af37] bg-[#232526]"
-          draggable={false}
-        />
-        <span className="flex items-center gap-1 font-semibold text-white truncate text-base md:text-lg">
-          {name}
-          {flagUrl ? (
-            <img
-              src={flagUrl}
-              alt={flagAlt}
-              className="w-5 h-4 object-cover rounded-sm border border-[#444] bg-[#232526] align-middle"
-              title={flagAlt}
-              draggable={false}
-            />
-          ) : (
-            <span className="w-5 h-4 ml-1 bg-gray-500 rounded-sm border border-[#444] align-middle text-[10px] flex items-center justify-center text-white px-1">--</span>
+      <div className="flex items-center gap-3 min-w-0">
+        {isEmoji ? (
+          <div className="w-10 h-10 rounded-full bg-surface-tertiary flex items-center justify-center text-2xl border border-gold/30">
+            {avatar}
+          </div>
+        ) : (
+          <img
+            src={avatar}
+            alt={isBot ? "Bot avatar" : "User avatar"}
+            className="w-10 h-10 rounded-full object-cover border-2 border-gold/40"
+            draggable={false}
+          />
+        )}
+        
+        <div className="min-w-0">
+          <div className="flex items-center gap-2">
+            <span className="font-bold text-foreground truncate text-base">
+              {name}
+            </span>
+            {flagUrl && (
+              <img
+                src={flagUrl}
+                alt="flag"
+                className="w-5 h-3 object-cover rounded-sm border border-surface-tertiary"
+                draggable={false}
+              />
+            )}
+            {isBot && (
+              <span className="text-xs bg-gold/20 text-gold px-2 py-0.5 rounded-full">
+                Bot
+              </span>
+            )}
+          </div>
+          {rating > 0 && (
+            <span className="text-gold font-bold text-sm">{rating}</span>
           )}
-        </span>
+        </div>
       </div>
-      <span className="font-bold text-[#d4af37] text-base md:text-lg ml-auto">{rating}</span>
+
+      {time !== undefined && (
+        <GameTimer 
+          time={time} 
+          isActive={isActive}
+          variant="compact"
+        />
+      )}
     </div>
   );
 }

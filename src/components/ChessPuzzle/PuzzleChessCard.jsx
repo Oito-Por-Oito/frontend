@@ -1,18 +1,18 @@
-
-import React from 'react';
+import React, { memo } from 'react';
 import { motion } from "framer-motion";
+import { OptimizedImage } from '@/components/ui';
 
-export default function PuzzleChessCard() {
+const PuzzleChessCard = memo(() => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: 'easeOut' }}
-      className="bg-gradient-to-r from-[#232526] via-[#1a1a1a] to-[#232526] text-white rounded-2xl p-4 sm:p-6 md:p-8 shadow-xl max-w-4xl w-full mx-auto flex flex-col sm:flex-row items-center gap-6 md:gap-8 border-t-2 border-b-2 border-[#c29d5d]/30"
+      className="bg-gradient-to-r from-[#232526] via-[#1a1a1a] to-[#232526] text-white rounded-2xl p-4 md:p-8 shadow-xl max-w-4xl w-full mx-auto flex flex-col md:flex-row items-center gap-6 md:gap-8 border-t-2 border-b-2 border-[#c29d5d]/30"
     >
       {/* Lado esquerdo: tabuleiro */}
-      <div className="w-full max-w-[160px] sm:max-w-[220px] md:max-w-[280px] flex justify-center items-center mb-2 sm:mb-4 md:mb-0">
-        <img
+      <div className="w-full max-w-[220px] md:max-w-[280px] flex justify-center items-center mb-4 md:mb-0">
+        <OptimizedImage
           src="assets/img/puzzle2.png"
           alt="Chess lesson board"
           className="rounded-lg w-full shadow-lg border border-[#c29d5d]/30 bg-[#232526]"
@@ -29,7 +29,7 @@ export default function PuzzleChessCard() {
         </div>
 
         <div className="flex items-start gap-4">
-          <img
+          <OptimizedImage
             src="public/assets/img/anna-rudolf.jpg"
             alt="Anna Rudolf"
             className="w-16 h-16 object-cover rounded-md border border-[#c29d5d]/40 bg-[#232526] shadow"
@@ -47,4 +47,8 @@ export default function PuzzleChessCard() {
       </div>
     </motion.div>
   );
-}
+});
+
+PuzzleChessCard.displayName = 'PuzzleChessCard';
+
+export default PuzzleChessCard;

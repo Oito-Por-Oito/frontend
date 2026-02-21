@@ -1,12 +1,9 @@
-
 import React from "react";
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
-import ForumHeader from "../../components/ChessForum/ForumHeader";
-import ForumSection from "../../components/ChessForum/ForumSection";
-import ForumSidebar from "../../components/ChessForum/ForumSidebar";
+import { PageLayout, MainLayout } from "@/components/layout";
+import ForumHeader from "@/components/ChessForum/ForumHeader";
+import ForumSection from "@/components/ChessForum/ForumSection";
+import ForumSidebar from "@/components/ChessForum/ForumSidebar";
 
-// Mock de categorias e tópicos
 const categories = [
   {
     id: "geral",
@@ -45,22 +42,18 @@ const recent = [
 
 export default function ChessForum() {
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#232526] via-[#181818] to-[#232526] text-white overflow-x-hidden">
-      <Navbar />
+    <PageLayout>
       <ForumHeader />
-      <main className="flex-1 mx-auto max-w-6xl px-4 py-8 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8 w-full">
-        {/* Coluna principal */}
+      <MainLayout 
+        sidebar={<ForumSidebar recent={recent} />}
+        containerSize="default"
+      >
         <section className="space-y-6">
           {categories.map((cat) => (
             <ForumSection key={cat.id} section={cat} />
           ))}
         </section>
-        {/* Sidebar */}
-        <aside className="space-y-6">
-          <ForumSidebar recent={recent} />
-        </aside>
-      </main>
-      <Footer />
-    </div>
+      </MainLayout>
+    </PageLayout>
   );
 }

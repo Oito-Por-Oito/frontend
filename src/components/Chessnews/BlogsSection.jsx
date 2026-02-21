@@ -3,13 +3,13 @@ import React from "react";
 export default function BlogsSection() {
   return (
     <section className="bg-gradient-to-br from-[#232526] via-[#2c2c2c] to-[#232526] rounded-2xl p-5 md:p-6 shadow border border-[#c29d5d]/10 w-full">
-      <h3 className="text-lg sm:text-2xl font-bold mb-3 sm:mb-4 text-[#c29d5d]">Blogs</h3>
+      <h3 className="text-2xl font-bold mb-4 text-[#c29d5d]">Blogs</h3>
 
-      <div className="flex flex-col sm:flex-row gap-4">
+      <div className="flex gap-4">
         <img
           src="assets/img/BlogImage.png"
           alt="Blog capa"
-          className="w-full sm:w-40 sm:h-28 md:w-64 md:h-40 object-cover rounded-2xl border-2 border-[#c29d5d]/30 shadow flex-shrink-0"
+          className="w-48 h-32 md:w-64 md:h-40 object-cover rounded-2xl border-2 border-[#c29d5d]/30 shadow"
         />
         <div className="flex-1">
           <h4 className="font-bold text-lg md:text-xl text-[#e7c27d] mb-1">

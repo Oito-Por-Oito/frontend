@@ -1,14 +1,7 @@
 import path from 'node:path';
 import react from '@vitejs/plugin-react';
 import { createLogger, defineConfig } from 'vite';
-
-const isDev = process.env.NODE_ENV !== 'production';
-let inlineEditPlugin, editModeDevPlugin;
-
-if (isDev) {
-	inlineEditPlugin = (await import('./plugins/visual-editor/vite-plugin-react-inline-editor.js')).default;
-	editModeDevPlugin = (await import('./plugins/visual-editor/vite-plugin-edit-mode.js')).default;
-}
+import { componentTagger } from 'lovable-tagger';
 
 const configHorizonsViteErrorHandler = `
 const observer = new MutationObserver((mutations) => {
@@ -132,7 +125,7 @@ window.fetch = function(...args) {
 			return response;
 		})
 		.catch(error => {
-			if (!url.match(/\.html?$/i)) {
+			if (!url.match(/\\.html?$/i)) {
 				console.error(error);
 			}
 
@@ -189,14 +182,16 @@ logger.error = (msg, options) => {
 	loggerError(msg, options);
 }
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
 	customLogger: logger,
 	plugins: [
-		...(isDev ? [inlineEditPlugin(), editModeDevPlugin()] : []),
 		react(),
+		mode === 'development' && componentTagger(),
 		addTransformIndexHtml
-	],
+	].filter(Boolean),
 	server: {
+		host: '::',
+		port: 8080,
 		cors: true,
 		headers: {
 			'Cross-Origin-Embedder-Policy': 'credentialless',
@@ -204,10 +199,48 @@ export default defineConfig({
 		allowedHosts: true,
 	},
 	resolve: {
-		extensions: ['.jsx', '.js', '.tsx', '.ts', '.json', ],
+		extensions: ['.jsx', '.js', '.tsx', '.ts', '.json'],
 		alias: {
 			'@': path.resolve(__dirname, './src'),
+			// Force single React instance to prevent "Cannot read properties of null (reading 'useState')"
+			'react': path.resolve(__dirname, 'node_modules/react'),
+			'react-dom': path.resolve(__dirname, 'node_modules/react-dom'),
+			'react/jsx-runtime': path.resolve(__dirname, 'node_modules/react/jsx-runtime'),
+			'react/jsx-dev-runtime': path.resolve(__dirname, 'node_modules/react/jsx-dev-runtime'),
+			'framer-motion': path.resolve(__dirname, 'node_modules/framer-motion'),
 		},
+		dedupe: ['react', 'react-dom', 'react/jsx-runtime', 'react/jsx-dev-runtime', 'framer-motion'],
+	},
+	// Force Vite to pre-bundle all React-dependent libraries together
+	optimizeDeps: {
+		include: [
+			'react',
+			'react-dom',
+			'react/jsx-runtime',
+			'react/jsx-dev-runtime',
+			'react-router-dom',
+			'framer-motion',
+			'recharts',
+			'@supabase/supabase-js',
+			'lucide-react',
+			'@radix-ui/react-dialog',
+			'@radix-ui/react-dropdown-menu',
+			'@radix-ui/react-avatar',
+			'@radix-ui/react-progress',
+			'@radix-ui/react-select',
+			'@radix-ui/react-tabs',
+			'@radix-ui/react-toast',
+			'@radix-ui/react-slot',
+			'@radix-ui/react-checkbox',
+			'@radix-ui/react-label',
+			'@radix-ui/react-alert-dialog',
+			'@radix-ui/react-slider',
+			'date-fns',
+			'chess.js',
+			'clsx',
+			'tailwind-merge'
+		],
+		force: true
 	},
 	build: {
 		rollupOptions: {
@@ -219,4 +252,4 @@ export default defineConfig({
 			]
 		}
 	}
-});
+}));

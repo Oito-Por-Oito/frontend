@@ -14,9 +14,7 @@ export default function PlaySidebarMenu({ menuItems }) {
     "Variantes de Xadrez": "/variants",
   };
   return (
-    <div
-      className="flex-shrink-0 flex flex-col h-full w-full md:max-w-[370px]"
-    >
+    <div className="flex-shrink-0 flex flex-col h-full w-full max-w-[370px]">
       <motion.section
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}

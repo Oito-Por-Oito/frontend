@@ -1,21 +1,30 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback, useMemo, memo } from "react";
 import { Chess } from "chess.js";
-import { motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import createStockfish from "../../utils/stockfishLoader";
+import { ThinkingIndicator, ThemedChessPiece } from "@/components/ui";
+import { playMoveSound, playCaptureSound, playCheckSound } from "@/hooks/useSound";
+import { useSettings } from "@/contexts/SettingsContext";
 
 function ChessBoard({ stockfishLevel, gameStarted, setParentGame, setParentLog }) {
   const [game] = useState(new Chess());
   const [fen, setFen] = useState(game.fen());
   const [isUserTurn, setIsUserTurn] = useState(true);
   const [engineReady, setEngineReady] = useState(false);
+  const [isEngineThinking, setIsEngineThinking] = useState(false);
   const [log, setLog] = useState([]);
+
+  // Obter cores do tabuleiro do contexto
+  const { boardThemeConfig } = useSettings();
 
   const stockfishRef = useRef(null);
   const [selectedSquare, setSelectedSquare] = useState(null);
   const [possibleMovesMap, setPossibleMovesMap] = useState({});
   const [lastMove, setLastMove] = useState({ from: null, to: null });
 
-  const addLog = (text) => setLog((prev) => [...prev, text]);
+  const addLog = useCallback((text) => {
+    setLog((prev) => [...prev, text]);
+  }, []);
 
   useEffect(() => {
     if (setParentGame) setParentGame(game);
@@ -28,7 +37,7 @@ function ChessBoard({ stockfishLevel, gameStarted, setParentGame, setParentLog }
   useEffect(() => {
     if (!gameStarted) return;
 
-    setEngineReady(false); // Reset engineReady ao iniciar novo jogo
+    setEngineReady(false);
     stockfishRef.current = createStockfish();
     if (!stockfishRef.current) {
       addLog("Erro ao criar o Stockfish worker.");
@@ -37,13 +46,11 @@ function ChessBoard({ stockfishLevel, gameStarted, setParentGame, setParentLog }
     stockfishRef.current.postMessage("uci");
 
     const onMessage = (e) => {
-      // Aceita tanto string quanto objeto { data: string }
       let msg = e.data;
       if (typeof msg !== "string" && msg && typeof msg.data === "string") {
         msg = msg.data;
       }
 
-      // Filtra mensagens de log muito verbosas
       if (typeof msg === "string" && !msg.startsWith("info") && msg !== "readyok") {
         addLog(`[Stockfish] ${JSON.stringify(msg)}`);
       }
@@ -56,6 +63,7 @@ function ChessBoard({ stockfishLevel, gameStarted, setParentGame, setParentLog }
         setEngineReady(true);
         addLog("Engine pronta!");
       } else if (typeof msg === "string" && msg.startsWith("bestmove")) {
+        setIsEngineThinking(false);
         const move = msg.split(" ")[1];
         if (move && move !== "(none)") {
           addLog(`Engine decidiu jogar: ${move}`);
@@ -67,10 +75,19 @@ function ChessBoard({ stockfishLevel, gameStarted, setParentGame, setParentLog }
             const moveResult = game.move({
               from,
               to,
-              promotion: promotion || "q", // Promoção padrão para rainha se não especificada
+              promotion: promotion || "q",
             });
 
             if (moveResult) {
+              // Tocar som apropriado
+              if (moveResult.captured) {
+                playCaptureSound();
+              } else if (game.inCheck()) {
+                playCheckSound();
+              } else {
+                playMoveSound();
+              }
+              
               setLastMove({ from, to });
               setFen(game.fen());
               setIsUserTurn(true);
@@ -96,9 +113,20 @@ function ChessBoard({ stockfishLevel, gameStarted, setParentGame, setParentLog }
       stockfishRef.current.terminate();
     };
     // eslint-disable-next-line
-  }, [stockfishLevel, gameStarted]);
+  }, [stockfishLevel, gameStarted, addLog]);
 
-  const makeAIMove = () => {
+  // Safety timeout: if engine takes too long, reset thinking state
+  useEffect(() => {
+    if (isEngineThinking) {
+      const timeout = setTimeout(() => {
+        addLog("Engine demorou muito, aguardando...");
+        setIsEngineThinking(false);
+      }, 15000); // 15 seconds timeout
+      return () => clearTimeout(timeout);
+    }
+  }, [isEngineThinking, addLog]);
+
+  const makeAIMove = useCallback(() => {
     if (!stockfishRef.current) {
       addLog("Engine não inicializada. Tentando reiniciar...");
       stockfishRef.current = createStockfish();
@@ -106,44 +134,52 @@ function ChessBoard({ stockfishLevel, gameStarted, setParentGame, setParentLog }
         addLog("Falha ao inicializar a engine.");
         return;
       }
-      // Reinicia o processo de configuração da engine
       stockfishRef.current.postMessage("uci");
-      setTimeout(makeAIMove, 500);
+      setTimeout(() => makeAIMove(), 500);
       return;
     }
 
     if (!engineReady) {
       addLog("Engine ainda não pronta... Aguardando inicialização.");
-      // Verifica status da engine
       stockfishRef.current.postMessage("isready");
-      setTimeout(makeAIMove, 500);
+      setTimeout(() => makeAIMove(), 500);
       return;
     }
 
     const currentFen = game.fen();
+    setIsEngineThinking(true);
     addLog("Engine pensando...");
     stockfishRef.current.postMessage(`position fen ${currentFen}`);
     stockfishRef.current.postMessage("go depth 15");
-  };
+  }, [engineReady, game, addLog]);
 
-  const handleMove = (from, to) => {
+  const handleMove = useCallback((from, to) => {
     try {
       const move = game.move({ from, to, promotion: "q" });
       if (move) {
+        // Tocar som apropriado
+        if (move.captured) {
+          playCaptureSound();
+        } else if (game.inCheck()) {
+          playCheckSound();
+        } else {
+          playMoveSound();
+        }
+        
         setLastMove({ from, to });
         setFen(game.fen());
         setIsUserTurn(false);
         addLog(`Você jogou: ${from}${to}`);
-        setTimeout(() => makeAIMove(), 300); // Delay para permitir atualização visual
+        setTimeout(() => makeAIMove(), 300);
       } else {
         addLog("Movimento inválido.");
       }
     } catch (err) {
       addLog("Erro: " + err.message);
     }
-  };
+  }, [game, addLog, makeAIMove]);
 
-  const handleSquareClick = (x, y) => {
+  const handleSquareClick = useCallback((x, y) => {
     if (!gameStarted || !isUserTurn || game.isGameOver()) return;
     const square = "abcdefgh"[x] + (8 - y);
 
@@ -171,50 +207,31 @@ function ChessBoard({ stockfishLevel, gameStarted, setParentGame, setParentLog }
         setPossibleMovesMap({});
       }
     }
-  };
+  }, [gameStarted, isUserTurn, game, selectedSquare, possibleMovesMap, handleMove]);
 
-  const pieceMap = {
-    bK: "bK.png",
-    bQ: "bQ.png",
-    bR: "bR.png",
-    bN: "bN.png",
-    bB: "bB.png",
-    bP: "bP.png",
-    wK: "wK.png",
-    wQ: "wQ.png",
-    wR: "wR.png",
-    wN: "wN.png",
-    wB: "wB.png",
-    wP: "wP.png",
-  };
-
-  const getPieceImage = (piece, coord) => {
+  const renderPiece = useCallback((piece, coord) => {
     if (!piece) return null;
-    const key = (piece.color === "w" ? "w" : "b") + piece.type.toUpperCase();
-    const img = pieceMap[key];
-    if (!img) return null;
     return (
-      <motion.img
-        layoutId={coord + "-" + key}
-        src={`/assets/pieces/${img}`}
-        alt={key}
-        className="w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 pointer-events-none select-none"
-        draggable={false}
-        animate={{ opacity: 1 }}
-        initial={{ opacity: 0.6 }}
-        transition={{ duration: 0.25 }}
-        style={{ maxWidth: '98%', maxHeight: '98%' }}
+      <ThemedChessPiece 
+        piece={piece}
+        size="xl"
+        animated={true}
+        layoutId={coord + "-" + piece.color + piece.type.toUpperCase()}
+        shadow={true}
       />
     );
-  };
+  }, []);
+
+  // Memoize board data to prevent recalculation
+  const boardData = useMemo(() => {
+    return game.board().flat();
+  }, [fen]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const renderBoard = () => {
-    const board = game.board();
-
     return (
       <div className="relative">
-        <div className="grid grid-cols-8 w-full max-w-[380px] sm:max-w-[480px] md:max-w-[650px] border-4 border-[#c29d5d] rounded-2xl shadow-2xl overflow-hidden">
-          {board.flat().map((square, idx) => {
+        <div className="grid grid-cols-8 w-full max-w-[320px] sm:max-w-[380px] md:max-w-[650px] aspect-square border-4 border-gold rounded-2xl shadow-2xl overflow-hidden">
+          {boardData.map((square, idx) => {
             const x = idx % 8;
             const y = Math.floor(idx / 8);
             const isLight = (x + (8 - y)) % 2 === 0;
@@ -230,8 +247,10 @@ function ChessBoard({ stockfishLevel, gameStarted, setParentGame, setParentLog }
               <div
                 key={coord}
                 onClick={() => handleSquareClick(x, y)}
+                style={{ 
+                  backgroundColor: isLight ? boardThemeConfig.light : boardThemeConfig.dark 
+                }}
                 className={`aspect-square relative flex items-center justify-center text-3xl cursor-pointer select-none transition-all duration-100
-                  ${isLight ? "bg-[#f0d9b5]" : "bg-[#b58863]"}
                   ${isLastMoveFrom || isLastMoveTo ? "border-4 border-yellow-500/50" : "border-0"}
                   ${isSelected ? "ring-4 ring-yellow-400 z-10" : "ring-0"}
                 `}
@@ -242,20 +261,25 @@ function ChessBoard({ stockfishLevel, gameStarted, setParentGame, setParentLog }
                 {isMoveOption && isCapture && (
                   <div className="absolute w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 rounded-full border-[3px] border-red-500/70 z-10" />
                 )}
-                {getPieceImage(square, coord)}
+                {renderPiece(square, coord)}
               </div>
             );
           })}
         </div>
 
-        {/* Notação horizontal A-H */}
+        {/* Thinking Indicator Overlay */}
+        <AnimatePresence>
+          <ThinkingIndicator isVisible={isEngineThinking} message="Engine pensando..." />
+        </AnimatePresence>
+
+        {/* Horizontal notation A-H */}
         <div className="absolute bottom-[-24px] left-0 w-full grid grid-cols-8 text-center text-sm text-white/70 font-medium">
           {"abcdefgh".split("").map((letter) => (
             <div key={letter}>{letter.toUpperCase()}</div>
           ))}
         </div>
 
-        {/* Notação vertical 8-1 */}
+        {/* Vertical notation 8-1 */}
         <div className="absolute top-0 left-[-20px] h-full grid grid-rows-8 text-sm text-white/70 font-medium">
           {[8, 7, 6, 5, 4, 3, 2, 1].map((num) => (
             <div key={num} className="flex items-center justify-center h-full">
@@ -274,4 +298,4 @@ function ChessBoard({ stockfishLevel, gameStarted, setParentGame, setParentLog }
   );
 }
 
-export default ChessBoard;
+export default memo(ChessBoard);

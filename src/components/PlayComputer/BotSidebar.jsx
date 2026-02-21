@@ -1,7 +1,6 @@
-
 import React from "react";
 import BotCard from "./BotCard";
-
+import { PieceThemeSelector } from "@/components/ui";
 // Função para converter emoji de bandeira para código de país (ex: 🇺🇸 -> us)
 function flagEmojiToCode(flag) {
   if (!flag) return '';
@@ -30,7 +29,7 @@ export default function BotSidebar({ stockfishLevel, setStockfishLevel, onPlayCl
   const handleRestart = () => window.location.reload();
 
   return (
-    <div className="space-y-6 text-sm bg-gradient-to-br from-[#232526] via-[#1a1a1a] to-[#232526] rounded-2xl border border-[#c29d5d]/30 p-4 shadow-xl w-full md:w-[335px] overflow-y-auto">
+    <div className="space-y-6 text-sm bg-gradient-to-br from-[#232526] via-[#1a1a1a] to-[#232526] rounded-2xl border border-[#c29d5d]/30 p-4 shadow-xl -mt-8" style={{ maxWidth: 335, minWidth: 335, width: 335, maxHeight: 824, minHeight: 824, height: 824 }}>
       {/* Destaque principal */}
       <div className="flex items-center gap-4 bg-[#232526]/80 rounded-xl p-3 border border-[#c29d5d]/30 shadow">
         <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center border-2 border-[#c29d5d]/40 overflow-hidden">
@@ -73,6 +72,12 @@ export default function BotSidebar({ stockfishLevel, setStockfishLevel, onPlayCl
             Reiniciar
           </button>
         </div>
+      </div>
+
+      {/* Seletor de Tema das Peças */}
+      <div className="bg-[#232526]/70 border border-[#c29d5d]/20 p-3 rounded-xl shadow">
+        <label className="text-[#e7c27d] font-semibold text-sm block mb-2">Tema das Peças</label>
+        <PieceThemeSelector compact />
       </div>
 
       {/* Lista de categorias */}

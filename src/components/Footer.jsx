@@ -1,4 +1,5 @@
 // components/Footer.jsx
+import React from 'react';
 import {
   FaApple,
   FaAndroid,
@@ -11,51 +12,72 @@ import {
 } from 'react-icons/fa6';
 import { motion } from "framer-motion";
 
+const socialIcons = [
+  { Icon: FaApple, label: "Apple" },
+  { Icon: FaAndroid, label: "Android" },
+  { Icon: FaTiktok, label: "TikTok" },
+  { Icon: FaXTwitter, label: "X/Twitter" },
+  { Icon: FaYoutube, label: "YouTube" },
+  { Icon: FaTwitch, label: "Twitch" },
+  { Icon: FaInstagram, label: "Instagram" },
+  { Icon: FaDiscord, label: "Discord" },
+];
+
+const links = [
+  "Suporte", "Idioma", "Vagas", "Desenvolvedores",
+  "Contrato de Usuário", "Política de privacidade",
+  "Jogo Limpo", "Parceiros"
+];
+
 export default function Footer() {
   return (
     <motion.footer
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, ease: 'easeOut' }}
-      className="bg-gradient-to-r from-[#232526] via-[#1a1a1a] to-[#232526] text-gray-300 text-[15px] py-10 px-4 sm:px-6 flex flex-col items-center space-y-7 shadow-xl border-gray-800 w-full"
+      transition={{ duration: 0.5, ease: 'easeOut' }}
+      className="bg-gradient-to-r from-surface-secondary via-surface-primary to-surface-secondary 
+                 text-text-secondary py-6 sm:py-8 lg:py-10 px-4 sm:px-6 
+                 flex flex-col items-center gap-4 sm:gap-6 
+                 shadow-xl border-t border-surface-tertiary"
     >
-      <div className="flex justify-center mb-2">
-        <img src="/assets/logo.png" alt="Logo OitoPorOito" className="h-12 w-auto drop-shadow-lg rounded-full bg-[#232526] p-1 border border-[#c29d5d]" />
+      {/* Logo */}
+      <div className="flex justify-center">
+        <img 
+          src="/assets/logo.png" 
+          alt="Logo OitoPorOito" 
+          loading="lazy"
+          className="h-10 sm:h-12 w-auto drop-shadow-lg rounded-full bg-surface-secondary p-1 border border-gold" 
+        />
       </div>
 
-      <div className="flex flex-wrap justify-center gap-3 text-xs text-gray-400">
-        <a href="#" className="hover:text-[#c29d5d] transition-colors">Suporte</a>
-        <span className="mx-1 text-gray-600">•</span>
-        <a href="#" className="hover:text-[#c29d5d] transition-colors">Idioma</a>
-        <span className="mx-1 text-gray-600">•</span>
-        <a href="#" className="hover:text-[#c29d5d] transition-colors">Vagas</a>
-        <span className="mx-1 text-gray-600">•</span>
-        <a href="#" className="hover:text-[#c29d5d] transition-colors">Desenvolvedores</a>
-        <span className="mx-1 text-gray-600">•</span>
-        <a href="#" className="hover:text-[#c29d5d] transition-colors">Contrato de Usuário</a>
-        <span className="mx-1 text-gray-600">•</span>
-        <a href="#" className="hover:text-[#c29d5d] transition-colors">Política de privacidade</a>
-        <span className="mx-1 text-gray-600">•</span>
-        <a href="#" className="hover:text-[#c29d5d] transition-colors">Configurações de Privacidade</a>
-        <span className="mx-1 text-gray-600">•</span>
-        <a href="#" className="hover:text-[#c29d5d] transition-colors">Jogo Limpo</a>
-        <span className="mx-1 text-gray-600">•</span>
-        <a href="#" className="hover:text-[#c29d5d] transition-colors">Parceiros</a>
-        <span className="mx-1 text-gray-600">•</span>
-        <a href="#" className="hover:text-[#c29d5d] transition-colors">Conformidade</a>
-        <span className="mx-1 text-gray-600">•</span>
-        <span className="font-semibold text-[#c29d5d]">OitoPorOito.com © 2025</span>
-      </div>
+      {/* Links - Responsivo */}
+      <nav className="flex flex-wrap justify-center gap-x-2 sm:gap-x-3 gap-y-1.5 text-[10px] sm:text-xs text-text-muted px-2 max-w-4xl">
+        {links.map((link, idx) => (
+          <span key={link} className="flex items-center whitespace-nowrap">
+            <a href="#" className="hover:text-gold transition-colors">{link}</a>
+            {idx < links.length - 1 && <span className="mx-1 sm:mx-1.5 text-text-muted/50">•</span>}
+          </span>
+        ))}
+      </nav>
 
-      <div className="flex space-x-5 text-2xl text-gray-300">
-        <FaApple className="hover:text-[#c29d5d] hover:scale-110 hover:bg-[#232526] hover:shadow-md transition-all cursor-pointer rounded-full p-1" />
-        <FaAndroid className="hover:text-[#c29d5d] hover:scale-110 hover:bg-[#232526] hover:shadow-md transition-all cursor-pointer rounded-full p-1" />
-        <FaTiktok className="hover:text-[#c29d5d] hover:scale-110 hover:bg-[#232526] hover:shadow-md transition-all cursor-pointer rounded-full p-1" />
-        <FaXTwitter className="hover:text-[#c29d5d] hover:scale-110 hover:bg-[#232526] hover:shadow-md transition-all cursor-pointer rounded-full p-1" />
-        <FaYoutube className="hover:text-[#c29d5d] hover:scale-110 hover:bg-[#232526] hover:shadow-md transition-all cursor-pointer rounded-full p-1" />
-        <FaTwitch className="hover:text-[#c29d5d] hover:scale-110 hover:bg-[#232526] hover:shadow-md transition-all cursor-pointer rounded-full p-1" />
-        <FaInstagram className="hover:text-[#c29d5d] hover:scale-110 hover:bg-[#232526] hover:shadow-md transition-all cursor-pointer rounded-full p-1" />
-        <FaDiscord className="hover:text-[#c29d5d] hover:scale-110 hover:bg-[#232526] hover:shadow-md transition-all cursor-pointer rounded-full p-1" />
+      {/* Copyright */}
+      <span className="font-semibold text-gold text-xs sm:text-sm">
+        OitoPorOito.com © 2025
+      </span>
+
+      {/* Social Icons - Responsivo */}
+      <div className="flex flex-wrap justify-center gap-3 sm:gap-4 text-xl sm:text-2xl text-text-secondary">
+        {socialIcons.map(({ Icon, label }) => (
+          <a 
+            key={label}
+            href="#"
+            aria-label={label}
+            className="hover:text-gold hover:scale-110 transition-all cursor-pointer p-1.5 rounded-full
+                       hover:bg-surface-tertiary"
+          >
+            <Icon />
+          </a>
+        ))}
       </div>
     </motion.footer>
   );

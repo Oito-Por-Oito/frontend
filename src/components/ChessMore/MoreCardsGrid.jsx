@@ -3,7 +3,7 @@ import React from "react";
 
 export default function SocialCardsGrid({ cards }) {
   return (
-    <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 w-full">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
       {cards.map((card, index) => (
         <div
           key={index}

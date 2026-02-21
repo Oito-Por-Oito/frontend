@@ -30,7 +30,7 @@ export default function PlayerInfoPlay({ avatar, name, rating, flagUrl, flagAlt 
           )}
         </span>
       </div>
-      <span className="font-bold text-[#d4af37] text-base md:text-lg ml-auto">{rating}</span>
+      <span className="font-bold text-[#d4af37] text-base md:text-lg ml-2">{rating}</span>
     </div>
   );
 }

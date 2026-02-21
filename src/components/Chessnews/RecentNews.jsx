@@ -16,24 +16,24 @@ const RecentNews = () => {
   ];
 
   return (
-    <div className="bg-gradient-to-br from-[#232526] via-[#1a1a1a] to-[#232526] w-full max-w-xs p-5 rounded-2xl shadow-xl border border-[#c29d5d]/40 text-white">
-      <h2 className="text-xl font-bold mb-4 text-[#e7c27d] drop-shadow flex items-center gap-2">
+    <div className="bg-gradient-to-br from-surface-secondary via-surface-primary to-surface-secondary w-full max-w-xs p-5 rounded-2xl shadow-xl border border-gold/40 text-foreground">
+      <h2 className="text-xl font-bold mb-4 text-gold-light drop-shadow flex items-center gap-2">
         📰 Últimas Notícias
       </h2>
       <ul className="space-y-3 text-base">
         {newsItems.map((item, index) => (
           <li
             key={index}
-            className="flex items-center gap-3 bg-[#232526]/70 border border-[#c29d5d]/20 rounded-lg px-3 py-2 shadow hover:bg-[#333] transition-all"
+            className="flex items-center gap-3 bg-surface-secondary/70 border border-gold/20 rounded-lg px-3 py-2 shadow hover:bg-surface-tertiary transition-all"
           >
-            <span className="text-[#e7c27d] text-lg">{item.icon}</span>
-            <span className="truncate font-semibold text-white">{item.text}</span>
+            <span className="text-gold-light text-lg">{item.icon}</span>
+            <span className="truncate font-semibold text-foreground">{item.text}</span>
           </li>
         ))}
       </ul>
 
       <div className="mt-6">
-        <h3 className="text-md font-semibold text-[#c29d5d] mb-2">Redes Sociais</h3>
+        <h3 className="text-md font-semibold text-gold mb-2">Redes Sociais</h3>
         <div className="flex justify-between flex-wrap gap-2">
           {socialMedia.map((media, index) => (
             <div key={index} className="flex flex-col items-center text-center space-y-1">
@@ -43,7 +43,7 @@ const RecentNews = () => {
               >
                 {media.icon}
               </div>
-              <span className="text-xs font-bold text-[#e7c27d]">{media.count}</span>
+              <span className="text-xs font-bold text-gold-light">{media.count}</span>
             </div>
           ))}
         </div>

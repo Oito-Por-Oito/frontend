@@ -1,38 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useMemo, memo } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { Button, Card } from '@/components/ui';
 
-export default function ChessBoardWithCTA() {
-  const pieceMap = {
-    bK: "bK.png", bQ: "bQ.png", bR: "bR.png", bN: "bN.png", bB: "bB.png", bP: "bP.png",
-    wK: "wK.png", wQ: "wQ.png", wR: "wR.png", wN: "wN.png", wB: "wB.png", wP: "wP.png",
-  };
+// Move static data outside component to prevent recreation
+const pieceMap = {
+  bK: "bK.png", bQ: "bQ.png", bR: "bR.png", bN: "bN.png", bB: "bB.png", bP: "bP.png",
+  wK: "wK.png", wQ: "wQ.png", wR: "wR.png", wN: "wN.png", wB: "wB.png", wP: "wP.png",
+};
 
-  // Simulações de jogadas (estado do tabuleiro em diferentes momentos)
-  const moves = [
-    {
-      0: ["bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR"],
-      1: ["bP", "bP", "bP", "bP", "bP", "bP", "bP", "bP"],
-      6: ["wP", "wP", "wP", "wP", "wP", "wP", "wP", "wP"],
-      7: ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"],
-    },
-    {
-      0: ["bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR"],
-      1: ["bP", "bP", "bP", "bP", "bP", "bP", "bP", "bP"],
-      4: [null, null, null, null, "wP"],
-      6: ["wP", "wP", "wP", "wP", null, "wP", "wP", "wP"],
-      7: ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"],
-    },
-    {
-      0: ["bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR"],
-      2: [null, null, null, null, "bP"],
-      1: ["bP", "bP", "bP", "bP", null, "bP", "bP", "bP"],
-      4: [null, null, null, null, "wP"],
-      6: ["wP", "wP", "wP", "wP", null, "wP", "wP", "wP"],
-      7: ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"],
-    }
-  ];
+const moves = [
+  {
+    0: ["bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR"],
+    1: ["bP", "bP", "bP", "bP", "bP", "bP", "bP", "bP"],
+    6: ["wP", "wP", "wP", "wP", "wP", "wP", "wP", "wP"],
+    7: ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"],
+  },
+  {
+    0: ["bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR"],
+    1: ["bP", "bP", "bP", "bP", "bP", "bP", "bP", "bP"],
+    4: [null, null, null, null, "wP"],
+    6: ["wP", "wP", "wP", "wP", null, "wP", "wP", "wP"],
+    7: ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"],
+  },
+  {
+    0: ["bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR"],
+    2: [null, null, null, null, "bP"],
+    1: ["bP", "bP", "bP", "bP", null, "bP", "bP", "bP"],
+    4: [null, null, null, null, "wP"],
+    6: ["wP", "wP", "wP", "wP", null, "wP", "wP", "wP"],
+    7: ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"],
+  }
+];
 
+const ChessBoardWithCTA = memo(() => {
   const [boardIndex, setBoardIndex] = useState(0);
 
   useEffect(() => {
@@ -43,74 +44,102 @@ export default function ChessBoardWithCTA() {
     return () => clearInterval(interval);
   }, []);
 
+  // Preload Stockfish worker on hover for faster game start
+  const preloadStockfish = useCallback(() => {
+    try {
+      const worker = new Worker('/stockfish/stockfishWorker.js');
+      worker.postMessage('uci');
+      // Terminate after warmup
+      setTimeout(() => worker.terminate(), 2000);
+    } catch (e) {
+      // Silently fail if worker can't be created
+    }
+  }, []);
+
   const piecePositions = moves[boardIndex];
 
+  // Memoize board squares to prevent recalculation
+  const boardSquares = useMemo(() => {
+    return Array.from({ length: 64 }, (_, i) => {
+      const row = Math.floor(i / 8);
+      const col = i % 8;
+      const isLight = (row + col) % 2 === 0;
+      const piece = piecePositions[row]?.[col] || "";
+      return { i, row, col, isLight, piece };
+    });
+  }, [piecePositions]);
+
   return (
-    <div className="w-full flex flex-col md:flex-row items-center md:items-start justify-center gap-8">
-      {/* TABULEIRO */}
+    <div className="w-full max-w-[900px] flex flex-col md:flex-row items-center justify-center gap-4 sm:gap-6 md:gap-8 px-4 sm:px-0">
+      {/* Chess Board - Responsivo */}
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.7, ease: 'easeOut' }}
-        className="grid grid-cols-8 grid-rows-8 w-full max-w-[480px] aspect-square border-2 border-white rounded overflow-hidden"
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className="grid grid-cols-8 grid-rows-8 w-full max-w-[280px] sm:max-w-[320px] md:max-w-[380px] 
+                   aspect-square border-2 border-gold/50 rounded-lg overflow-hidden shadow-lg"
       >
-        {Array.from({ length: 64 }, (_, i) => {
-          const row = Math.floor(i / 8);
-          const col = i % 8;
-          const isLight = (row + col) % 2 === 0;
-          const piece = piecePositions[row]?.[col] || "";
-
-          return (
-            <div
-              key={i}
-              className={`w-full h-full flex items-center justify-center ${isLight ? "bg-[#f0d9b5]" : "bg-[#b58863]"}`}
-            >
-              <AnimatePresence>
-                {piece && (
-                  <motion.img
-                    key={piece + i}
-                    src={`/assets/pieces/${pieceMap[piece]}`}
-                    alt={piece}
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0.8, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="w-6 h-6 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 pointer-events-none"
-                    draggable={false}
-                  />
-                )}
-              </AnimatePresence>
-            </div>
-          );
-        })}
+        {boardSquares.map(({ i, isLight, piece }) => (
+          <div
+            key={i}
+            className={`w-full h-full flex items-center justify-center ${isLight ? "bg-[#f0d9b5]" : "bg-[#b58863]"}`}
+          >
+            <AnimatePresence>
+              {piece && (
+                <motion.img
+                  key={piece + i}
+                  src={`/assets/pieces/${pieceMap[piece]}`}
+                  alt={piece}
+                  initial={{ y: -15, opacity: 0, scale: 0.9 }}
+                  animate={{ y: 0, opacity: 1, scale: 1 }}
+                  exit={{ y: 15, opacity: 0, scale: 0.9 }}
+                  transition={{ 
+                    duration: 0.4, 
+                    ease: [0.25, 0.46, 0.45, 0.94],
+                    opacity: { duration: 0.25 }
+                  }}
+                  className="w-[75%] h-[75%] sm:w-[80%] sm:h-[80%] object-contain pointer-events-none
+                             drop-shadow-[2px_3px_3px_rgba(0,0,0,0.4)]"
+                  draggable={false}
+                  loading="lazy"
+                />
+              )}
+            </AnimatePresence>
+          </div>
+        ))}
       </motion.div>
 
-      {/* CTA */}
+      {/* CTA Section - Responsivo */}
       <motion.section
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, ease: 'easeOut' }}
-        className="w-full max-w-[380px] bg-[#1e1e1e] p-6 md:p-8 rounded-lg shadow-lg"
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className="w-full max-w-[320px] sm:max-w-[360px] md:max-w-[380px] 
+                   bg-surface-card p-5 sm:p-6 md:p-8 rounded-xl shadow-lg"
       >
-        <h1 className="text-2xl sm:text-3xl font-bold mb-2">Play Chess Online</h1>
-        <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4">on the #1 Site!</h2>
-        <div className="text-sm mb-6 text-gray-400">
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-1 sm:mb-2">Play Chess Online</h1>
+        <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-3 sm:mb-4 text-gold-light">on the #1 Site!</h2>
+        <div className="text-xs sm:text-sm mb-4 sm:mb-6 text-text-muted">
           <span className="font-bold text-white">18,867,311</span> Games Today <br />
           <span className="font-bold text-white">136,285</span> Playing Now
         </div>
-        <Link
-          to="/play"
-          className="w-full bg-gradient-to-r from-[#e7c27d] to-[#c29d5d] text-black py-2.5 rounded-xl text-lg font-bold mb-3 shadow-lg hover:from-[#ffe7b3] hover:to-[#e7c27d] hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#c29d5d] flex items-center justify-center text-center"
-        >
-          ▶ Play Online
-        </Link>
-        <Link
-          to="/play-computer"
-          className="w-full bg-gradient-to-r from-[#232526] to-[#2d2d2d] text-white py-2.5 rounded-xl text-lg font-bold shadow-lg border-2 border-[#c29d5d]/50 hover:from-[#444] hover:to-[#232526] hover:text-[#c29d5d] hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#c29d5d] flex items-center justify-center text-center"
-        >
-          🤖 Play Computer
-        </Link>
+        <div className="flex flex-col gap-2 sm:gap-3">
+          <Link to="/play">
+            <Button variant="primary" size="lg" className="w-full text-sm sm:text-base">
+              ▶ Play Online
+            </Button>
+          </Link>
+          <Link to="/play-computer" onMouseEnter={preloadStockfish}>
+            <Button variant="secondary" size="lg" className="w-full text-sm sm:text-base">
+              🤖 Play Computer
+            </Button>
+          </Link>
+        </div>
       </motion.section>
     </div>
   );
-}
+});
+
+ChessBoardWithCTA.displayName = 'ChessBoardWithCTA';
+
+export default ChessBoardWithCTA;

@@ -8,15 +8,42 @@ module.exports = {
 		'./src/**/*.{js,jsx}',
 	],
 	theme: {
+		// Breakpoints customizados para melhor responsividade
+		screens: {
+			'xs': '480px',
+			'sm': '640px',
+			'md': '768px',
+			'lg': '1024px',  // Breakpoint principal: menu desktop aparece aqui
+			'sidebar': '1315px',  // Breakpoint para sidebars e imagem do navbar
+			'xl': '1280px',
+			'2xl': '1536px',
+		},
 		container: {
 			center: true,
-			padding: '2rem',
+			padding: {
+				DEFAULT: '1rem',
+				sm: '1.5rem',
+				lg: '2rem',
+			},
 			screens: {
 				'2xl': '1400px',
 			},
 		},
 		extend: {
 			colors: {
+				// Cores do sistema de design OitoPorOito
+				gold: {
+					DEFAULT: 'hsl(var(--gold))',
+					light: 'hsl(var(--gold-light))',
+					lighter: 'hsl(var(--gold-lighter))',
+				},
+				surface: {
+					primary: 'hsl(var(--surface-primary))',
+					secondary: 'hsl(var(--surface-secondary))',
+					tertiary: 'hsl(var(--surface-tertiary))',
+					card: 'hsl(var(--surface-card))',
+				},
+				// Cores semânticas (shadcn compatible)
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
@@ -50,11 +77,30 @@ module.exports = {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))',
 				},
+				// Badges de títulos
+				badge: {
+					gm: 'hsl(var(--badge-gm))',
+					im: 'hsl(var(--badge-im))',
+					fm: 'hsl(var(--badge-fm))',
+					nm: 'hsl(var(--badge-nm))',
+					cm: 'hsl(var(--badge-cm))',
+				},
 			},
 			borderRadius: {
-				lg: 'var(--radius)',
-				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)',
+				lg: 'var(--radius-lg)',
+				md: 'var(--radius-md)',
+				sm: 'var(--radius-sm)',
+				xl: 'var(--radius-xl)',
+				'2xl': 'var(--radius-2xl)',
+			},
+			boxShadow: {
+				'card': 'var(--shadow-md)',
+				'card-lg': 'var(--shadow-lg)',
+				'card-xl': 'var(--shadow-xl)',
+			},
+			maxWidth: {
+				'content': 'var(--max-width-content)',
+				'narrow': 'var(--max-width-narrow)',
 			},
 			keyframes: {
 				'accordion-down': {
