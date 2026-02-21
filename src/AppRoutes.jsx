@@ -45,10 +45,22 @@ const LearnAnalysis = lazy(() => import('./pages/Learn/LearnAnalysis'));
 const LearnClassroom = lazy(() => import('./pages/Learn/LearnClassroom'));
 const LearnPractice = lazy(() => import('./pages/Learn/LearnPractice'));
 const LearnLibrary = lazy(() => import('./pages/Learn/LearnLibrary'));
+const LearnCriticalIdeas = lazy(() => import('./pages/Learn/LearnCriticalIdeas'));
 
 // Watch
 const Chessnews = lazy(() => import('./pages/Chessnews'));
 const ChessEvents = lazy(() => import('./pages/ChessEvents'));
+const WatchChessTV = lazy(() => import('./pages/Watch/WatchChessTV'));
+const WatchEvents = lazy(() => import('./pages/Watch/WatchEvents'));
+const WatchPlayingNow = lazy(() => import('./pages/Watch/WatchPlayingNow'));
+const WatchStreamers = lazy(() => import('./pages/Watch/WatchStreamers'));
+
+// News
+const NewsHub = lazy(() => import('./pages/News/NewsHub'));
+const NewsChessToday = lazy(() => import('./pages/News/NewsChessToday'));
+const NewsArticles = lazy(() => import('./pages/News/NewsArticles'));
+const NewsRankings = lazy(() => import('./pages/News/NewsRankings'));
+const NewsTopPlayers = lazy(() => import('./pages/News/NewsTopPlayers'));
 
 // Social
 const ChessSocial = lazy(() => import('./pages/ChessSocial'));
@@ -61,6 +73,10 @@ const ChessCoaches = lazy(() => import('./pages/SocialChess/ChessCoaches'));
 
 // Mais
 const ChessMore = lazy(() => import('./pages/ChessMore'));
+const MaisAberturas = lazy(() => import('./pages/Mais/MaisAberturas'));
+const MaisApps = lazy(() => import('./pages/Mais/MaisApps'));
+const MaisExplorador = lazy(() => import('./pages/Mais/MaisExplorador'));
+const MaisXadrezSolo = lazy(() => import('./pages/Mais/MaisXadrezSolo'));
 
 export default function AppRoutes() {
   return (
@@ -87,6 +103,7 @@ export default function AppRoutes() {
           <Route path="/play-computer" element={<PlayComputer />} />
           <Route path="/play-online" element={<PlayOnline />} />
           <Route path="/play/trainer" element={<PlayTrainer />} />
+          <Route path="/learn/trainer" element={<PlayTrainer />} />
           <Route path="/tournaments" element={<Tournaments />} />
           <Route path="/variants" element={<Variants />} />
           <Route path="/ranking" element={<Ranking />} />
@@ -94,12 +111,17 @@ export default function AppRoutes() {
           {/* Watch / Histórico */}
           <Route path="/watch" element={<WatchGames />} />
           <Route path="/watch/:gameId" element={<WatchGame />} />
+          <Route path="/watch/chesstv" element={<WatchChessTV />} />
+          <Route path="/watch/events" element={<WatchEvents />} />
+          <Route path="/watch/playing-now" element={<WatchPlayingNow />} />
+          <Route path="/watch/streamers" element={<WatchStreamers />} />
           <Route path="/history" element={<GameHistory />} />
           <Route path="/history/:gameId" element={<GameReplay />} />
 
           {/* Puzzles */}
           <Route path="/puzzle-chess" element={<PuzzleChess />} />
           <Route path="/puzzles" element={<PuzzleProblems />} />
+          <Route path="/puzzles/problems" element={<PuzzleProblems />} />
           <Route path="/puzzles/rush" element={<PuzzleRush />} />
           <Route path="/puzzles/battle" element={<PuzzleBattle />} />
           <Route path="/puzzles/daily" element={<PuzzleDaily />} />
@@ -115,8 +137,14 @@ export default function AppRoutes() {
           <Route path="/learn/classroom" element={<LearnClassroom />} />
           <Route path="/learn/practice" element={<LearnPractice />} />
           <Route path="/learn/library" element={<LearnLibrary />} />
+          <Route path="/learn/critical-ideas" element={<LearnCriticalIdeas />} />
 
-          {/* News / Events */}
+          {/* News */}
+          <Route path="/news" element={<NewsHub />} />
+          <Route path="/news/chess-today" element={<NewsChessToday />} />
+          <Route path="/news/articles" element={<NewsArticles />} />
+          <Route path="/news/rankings" element={<NewsRankings />} />
+          <Route path="/news/top-players" element={<NewsTopPlayers />} />
           <Route path="/chessnews" element={<Chessnews />} />
           <Route path="/chess-events" element={<ChessEvents />} />
 
@@ -131,6 +159,11 @@ export default function AppRoutes() {
 
           {/* Mais */}
           <Route path="/mais" element={<ChessMore />} />
+          <Route path="/mais/aberturas" element={<MaisAberturas />} />
+          <Route path="/mais/apps" element={<MaisApps />} />
+          <Route path="/mais/biblioteca" element={<LearnLibrary />} />
+          <Route path="/mais/explorador" element={<MaisExplorador />} />
+          <Route path="/mais/xadrez-solo" element={<MaisXadrezSolo />} />
 
           {/* 404 */}
           <Route path="*" element={<NotFoundPage />} />
