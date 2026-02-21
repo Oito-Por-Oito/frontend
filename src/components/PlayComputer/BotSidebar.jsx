@@ -29,19 +29,19 @@ export default function BotSidebar({ stockfishLevel, setStockfishLevel, onPlayCl
   const handleRestart = () => window.location.reload();
 
   return (
-    <div className="space-y-6 text-sm bg-gradient-to-br from-[#232526] via-[#1a1a1a] to-[#232526] rounded-2xl border border-[#c29d5d]/30 p-4 shadow-xl -mt-8" style={{ maxWidth: 335, minWidth: 335, width: 335, maxHeight: 824, minHeight: 824, height: 824 }}>
+    <div className="space-y-6 text-sm bg-surface-secondary rounded-2xl border border-gold/30 p-4 shadow-xl -mt-8" style={{ maxWidth: 335, minWidth: 335, width: 335, maxHeight: 824, minHeight: 824, height: 824 }}>
       {/* Destaque principal */}
-      <div className="flex items-center gap-4 bg-[#232526]/80 rounded-xl p-3 border border-[#c29d5d]/30 shadow">
-        <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center border-2 border-[#c29d5d]/40 overflow-hidden">
+      <div className="flex items-center gap-4 bg-surface-secondary/80 rounded-xl p-3 border border-gold/30 shadow">
+        <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center border-2 border-gold/40 overflow-hidden">
           <span className="text-black text-2xl font-bold">🧑</span>
         </div>
         <div>
-          <div className="font-bold text-base text-[#e7c27d]">{bots[0].name}</div>
+          <div className="font-bold text-base text-gold">{bots[0].name}</div>
           <div className="text-sm text-gray-300 font-semibold">{bots[0].rating} {bots[0].flag && (
             <img
               src={getFlagUrl(bots[0].flag)}
               alt={bots[0].flag}
-              className="inline-block w-5 h-3 ml-1 object-cover rounded-sm border border-[#444] bg-[#232526] align-middle"
+              className="inline-block w-5 h-3 ml-1 object-cover rounded-sm border border-surface-tertiary bg-surface-secondary align-middle"
               title={bots[0].flag}
               draggable={false}
             />
@@ -50,11 +50,11 @@ export default function BotSidebar({ stockfishLevel, setStockfishLevel, onPlayCl
       </div>
 
       {/* Nível do Stockfish e Reiniciar */}
-      <div className="flex flex-col gap-3 bg-[#232526]/70 border border-[#c29d5d]/20 p-3 rounded-xl shadow">
-        <label className="text-[#e7c27d] font-semibold text-sm">Nível do Robô</label>
+      <div className="flex flex-col gap-3 bg-surface-secondary/70 border border-gold/20 p-3 rounded-xl shadow">
+        <label className="text-gold font-semibold text-sm">Nível do Robô</label>
         <div className="flex items-center gap-2">
           <select
-            className="rounded p-1 bg-[#1a1a1a] text-white border border-[#c29d5d]/40 focus:ring-2 focus:ring-[#c29d5d] text-sm"
+            className="rounded p-1 bg-surface-primary text-foreground border border-gold/40 focus:ring-2 focus:ring-gold text-sm"
             value={stockfishLevel}
             onChange={(e) => setStockfishLevel(Number(e.target.value))}
             disabled={gameStarted}
@@ -67,7 +67,7 @@ export default function BotSidebar({ stockfishLevel, setStockfishLevel, onPlayCl
           </select>
           <button
             onClick={handleRestart}
-            className="px-3 py-1.5 bg-red-500 text-white rounded font-semibold text-sm hover:bg-red-600 transition-all duration-150 ml-2"
+            className="px-3 py-1.5 bg-red-500 text-foreground rounded font-semibold text-sm hover:bg-red-600 transition-all duration-150 ml-2"
           >
             Reiniciar
           </button>
@@ -75,16 +75,16 @@ export default function BotSidebar({ stockfishLevel, setStockfishLevel, onPlayCl
       </div>
 
       {/* Seletor de Tema das Peças */}
-      <div className="bg-[#232526]/70 border border-[#c29d5d]/20 p-3 rounded-xl shadow">
-        <label className="text-[#e7c27d] font-semibold text-sm block mb-2">Tema das Peças</label>
+      <div className="bg-surface-secondary/70 border border-gold/20 p-3 rounded-xl shadow">
+        <label className="text-gold font-semibold text-sm block mb-2">Tema das Peças</label>
         <PieceThemeSelector compact />
       </div>
 
       {/* Lista de categorias */}
       <div className="space-y-3">
         {bots.slice(1).map((bot, idx) => (
-          <div key={idx} className="bg-[#232526]/70 border border-[#c29d5d]/20 p-3 rounded-xl shadow flex flex-col gap-2">
-            <div className="font-semibold text-white text-sm">{bot.name}</div>
+          <div key={idx} className="bg-surface-secondary/70 border border-gold/20 p-3 rounded-xl shadow flex flex-col gap-2">
+            <div className="font-semibold text-foreground text-sm">{bot.name}</div>
             {bot.bots && (
               <div className="flex gap-2 mt-1">
                 {bot.bots.map((b, i) => (
@@ -100,7 +100,7 @@ export default function BotSidebar({ stockfishLevel, setStockfishLevel, onPlayCl
       </div>
 
       <button
-        className="w-full mt-2 bg-gradient-to-r from-[#e7c27d] to-[#c29d5d] text-black py-2 rounded-xl text-lg font-bold shadow-lg hover:from-[#ffe7b3] hover:to-[#e7c27d] hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#c29d5d]"
+        className="w-full mt-2 bg-gradient-to-r from-gold to-gold-dark text-black py-2 rounded-xl text-lg font-bold shadow-lg hover:from-gold-light hover:to-gold hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gold"
         onClick={onPlayClick}
         disabled={gameStarted}
       >

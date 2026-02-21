@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Trophy, X, Minus, Palette, RefreshCw, Play, Eye, Users } from 'lucide-react';
+import { ArrowLeft, Palette, RefreshCw, Play, Eye, X } from 'lucide-react';
 import OnlineChessBoard from './OnlineChessBoard';
 import PlayerInfoOnline from './PlayerInfoOnline';
 import GameControls from './GameControls';
@@ -11,13 +11,12 @@ import ChatBubble from './ChatBubble';
 import { useOnlineGame } from '@/hooks/useOnlineGame';
 import { getRatingForTimeControl, getResultText } from '@/lib/gameHelpers';
 import { useAuth } from '@/hooks/useAuth';
-import { PieceThemeSelector } from '@/components/ui';
-
+import { PieceThemeSelector, Button, Card } from '@/components/ui';
 
 export default function GameRoom({ gameId, onLeaveGame, onRematchAccepted }) {
-  const navigate = useNavigate();
   const { profile } = useAuth();
   const [showThemeSelector, setShowThemeSelector] = useState(false);
+
   const {
     game,
     chess,
@@ -47,28 +46,24 @@ export default function GameRoom({ gameId, onLeaveGame, onRematchAccepted }) {
     isGameOver,
   } = useOnlineGame(gameId);
 
-
-  // Último lance para highlight
   const lastMove = useMemo(() => {
     if (moves.length === 0) return null;
     const last = moves[moves.length - 1];
     return { from: last.from_square, to: last.to_square };
   }, [moves]);
 
-  // Ratings dos jogadores
   const myRating = game ? getRatingForTimeControl(profile, game.time_control) : 800;
   const opponentRating = game ? getRatingForTimeControl(opponent, game.time_control) : 800;
-
-  // Texto do resultado
-  const resultText = game && isGameOver ? 
-    getResultText(game.result, game.result_reason, myColor, game.winner_id, profile?.id) : null;
+  const resultText = game && isGameOver
+    ? getResultText(game.result, game.result_reason, myColor, game.winner_id, profile?.id)
+    : null;
 
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-[#c29d5d] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-gray-400">Carregando partida...</p>
+          <div className="w-14 h-14 border-4 border-gold border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-muted-foreground text-sm">Carregando partida...</p>
         </div>
       </div>
     );
@@ -78,49 +73,52 @@ export default function GameRoom({ gameId, onLeaveGame, onRematchAccepted }) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
-          <p className="text-red-400 mb-4">{error || 'Partida não encontrada'}</p>
-          <button
-            onClick={onLeaveGame}
-            className="px-4 py-2 bg-[#333] hover:bg-[#444] text-white rounded-lg"
-          >
-            Voltar
-          </button>
+          <p className="text-red-400 mb-4 text-sm">{error || 'Partida não encontrada'}</p>
+          <Button variant="outline" size="sm" onClick={onLeaveGame}>Voltar</Button>
         </div>
       </div>
     );
   }
 
+  const isWin = game.winner_id === profile?.id;
+  const isDraw = game.result === '1/2-1/2';
+
+  const resultCardClass = isWin
+    ? 'bg-gradient-to-br from-green-900/50 to-green-800/30 border-green-600/50'
+    : isDraw
+    ? 'bg-surface-secondary border-surface-tertiary'
+    : 'bg-gradient-to-br from-red-900/50 to-red-800/30 border-red-600/50';
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="w-full max-w-6xl mx-auto"
+      className="w-full max-w-6xl mx-auto overflow-x-hidden"
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <button
           onClick={onLeaveGame}
-          className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+          className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm"
         >
-          <ArrowLeft size={20} />
+          <ArrowLeft size={18} />
           <span>Voltar</span>
         </button>
-        <div className="flex items-center gap-4">
-          {/* Contagem de espectadores */}
+        <div className="flex items-center gap-3">
           {spectatorCount > 0 && (
-            <span className="flex items-center gap-1.5 text-sm text-gray-400 bg-[#2a2a2a] px-2.5 py-1 rounded-full">
-              <Eye size={14} className="text-purple-400" />
+            <span className="flex items-center gap-1.5 text-xs text-muted-foreground bg-surface-secondary px-2.5 py-1 rounded-full border border-gold/10">
+              <Eye size={12} className="text-purple-400" />
               {spectatorCount}
             </span>
           )}
           <button
             onClick={() => setShowThemeSelector(!showThemeSelector)}
-            className="flex items-center gap-2 text-gray-400 hover:text-[#c29d5d] transition-colors"
+            className="text-muted-foreground hover:text-gold transition-colors"
             title="Tema das peças"
           >
-            <Palette size={20} />
+            <Palette size={18} />
           </button>
-          <span className="text-sm text-gray-400">
+          <span className="text-xs text-muted-foreground bg-surface-secondary px-2.5 py-1 rounded-full border border-gold/10">
             {game.time_control}
           </span>
         </div>
@@ -132,29 +130,26 @@ export default function GameRoom({ gameId, onLeaveGame, onRematchAccepted }) {
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
-          className="mb-4 p-4 bg-[#1e1e1e] rounded-xl"
         >
-          <div className="flex items-center justify-between mb-3">
-            <h4 className="text-white font-semibold">Tema das Peças</h4>
-            <button 
-              onClick={() => setShowThemeSelector(false)}
-              className="text-gray-400 hover:text-white"
-            >
-              <X size={18} />
-            </button>
-          </div>
-          <PieceThemeSelector compact />
+          <Card variant="gradient" className="mb-4 p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h4 className="text-foreground font-semibold text-sm">Tema das Peças</h4>
+              <button onClick={() => setShowThemeSelector(false)} className="text-muted-foreground hover:text-foreground">
+                <X size={16} />
+              </button>
+            </div>
+            <PieceThemeSelector compact />
+          </Card>
         </motion.div>
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Coluna do tabuleiro */}
         <div className="lg:col-span-2 space-y-3">
-          {/* Oponente (em cima) - com bubble de chat */}
           <div className="relative">
-            <ChatBubble 
-              chatMessage={chatMessage} 
-              opponentName={opponent?.display_name || opponent?.username || 'Oponente'} 
+            <ChatBubble
+              chatMessage={chatMessage}
+              opponentName={opponent?.display_name || opponent?.username || 'Oponente'}
             />
             <PlayerInfoOnline
               player={opponent}
@@ -165,7 +160,6 @@ export default function GameRoom({ gameId, onLeaveGame, onRematchAccepted }) {
             />
           </div>
 
-          {/* Tabuleiro */}
           <OnlineChessBoard
             chess={chess}
             myColor={myColor}
@@ -175,7 +169,6 @@ export default function GameRoom({ gameId, onLeaveGame, onRematchAccepted }) {
             disabled={isGameOver}
           />
 
-          {/* Eu (embaixo) */}
           <PlayerInfoOnline
             player={profile}
             rating={myRating}
@@ -186,105 +179,84 @@ export default function GameRoom({ gameId, onLeaveGame, onRematchAccepted }) {
         </div>
 
         {/* Coluna lateral */}
-        <div className="space-y-4">
+        <div className="space-y-3">
           {/* Resultado do jogo */}
           {isGameOver && resultText && (
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className={`
-                p-6 rounded-xl text-center
-                ${game.winner_id === profile?.id 
-                  ? 'bg-gradient-to-br from-green-900/50 to-green-800/30 border border-green-600/50' 
-                  : game.result === '1/2-1/2'
-                    ? 'bg-gradient-to-br from-gray-800/50 to-gray-700/30 border border-gray-600/50'
-                    : 'bg-gradient-to-br from-red-900/50 to-red-800/30 border border-red-600/50'
-                }
-              `}
+              className={`p-5 rounded-2xl text-center border ${resultCardClass}`}
             >
-              <div className="text-2xl sm:text-4xl mb-2">
-                {game.winner_id === profile?.id ? '🏆' : game.result === '1/2-1/2' ? '🤝' : '😔'}
+              <div className="text-3xl sm:text-4xl mb-2">
+                {isWin ? '🏆' : isDraw ? '🤝' : '😔'}
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-white mb-1">{resultText}</h3>
-              <p className="text-gray-400 text-sm">{game.result}</p>
-              
+              <h3 className="text-lg sm:text-xl font-bold text-foreground mb-1">{resultText}</h3>
+              <p className="text-muted-foreground text-xs">{game.result}</p>
+
               {/* Oferta de rematch recebida */}
               {rematchOffer === 'received' && (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mt-4 p-3 bg-[#2a2a2a] rounded-lg border border-[#c29d5d]"
+                  className="mt-4 p-3 bg-surface-secondary rounded-xl border border-gold/40"
                 >
-                  <p className="text-white text-sm mb-2">
+                  <p className="text-foreground text-sm mb-2">
                     {opponent?.display_name || opponent?.username} quer revanche!
                   </p>
                   <div className="flex gap-2 justify-center">
-                    <button 
-                      onClick={acceptRematch} 
-                      className="px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white text-sm rounded-lg transition-colors"
-                    >
-                      Aceitar
-                    </button>
-                    <button 
-                      onClick={declineRematch} 
-                      className="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white text-sm rounded-lg transition-colors"
-                    >
-                      Recusar
-                    </button>
+                    <Button variant="primary" size="sm" onClick={acceptRematch}>Aceitar</Button>
+                    <Button variant="destructive" size="sm" onClick={declineRematch}>Recusar</Button>
                   </div>
                 </motion.div>
               )}
-              
-              {/* Oferta de rematch enviada (aguardando) */}
+
+              {/* Oferta de rematch enviada */}
               {rematchOffer === 'pending' && !rematchGameId && (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mt-4 p-3 bg-[#2a2a2a] rounded-lg"
+                  className="mt-4 p-3 bg-surface-secondary rounded-xl"
                 >
-                  <div className="flex items-center justify-center gap-2 text-gray-300 text-sm mb-2">
-                    <div className="w-4 h-4 border-2 border-[#c29d5d] border-t-transparent rounded-full animate-spin" />
+                  <div className="flex items-center justify-center gap-2 text-muted-foreground text-sm mb-2">
+                    <div className="w-3.5 h-3.5 border-2 border-gold border-t-transparent rounded-full animate-spin" />
                     Aguardando resposta...
                   </div>
-                  <button 
-                    onClick={cancelRematch} 
+                  <button
+                    onClick={cancelRematch}
                     className="text-red-400 text-xs hover:text-red-300 transition-colors"
                   >
                     Cancelar oferta
                   </button>
                 </motion.div>
               )}
-              
+
               {/* Botões de ação */}
               <div className="flex gap-2 justify-center mt-4 flex-wrap">
-                {/* Botão de ir para rematch (quando aceito) */}
                 {rematchGameId && (
-                  <button
+                  <Button
+                    variant="primary"
+                    size="sm"
                     onClick={() => onRematchAccepted?.(rematchGameId)}
-                    className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg flex items-center gap-2 transition-colors"
+                    className="flex items-center gap-2"
                   >
-                    <Play size={18} />
+                    <Play size={16} />
                     Ir para Revanche
-                  </button>
+                  </Button>
                 )}
-                
-                {/* Botão de oferecer rematch (se não há oferta ainda) */}
                 {!rematchOffer && !rematchGameId && (
-                  <button
+                  <Button
+                    variant="primary"
+                    size="sm"
                     onClick={offerRematch}
-                    className="px-4 py-2 bg-[#c29d5d] hover:bg-[#d4af6d] text-black font-semibold rounded-lg flex items-center gap-2 transition-colors"
+                    className="flex items-center gap-2"
                   >
-                    <RefreshCw size={18} />
+                    <RefreshCw size={16} />
                     Revanche
-                  </button>
+                  </Button>
                 )}
-                
-                <button
-                  onClick={onLeaveGame}
-                  className="px-4 py-2 bg-[#333] hover:bg-[#444] text-white rounded-lg transition-colors"
-                >
+                <Button variant="outline" size="sm" onClick={onLeaveGame}>
                   Nova partida
-                </button>
+                </Button>
               </div>
             </motion.div>
           )}
@@ -304,33 +276,26 @@ export default function GameRoom({ gameId, onLeaveGame, onRematchAccepted }) {
           />
 
           {/* Chat rápido */}
-          <QuickChat 
-            onSendMessage={sendChatMessage} 
-            disabled={false} 
-          />
+          <QuickChat onSendMessage={sendChatMessage} disabled={false} />
 
-          {/* Status da partida com seletor de tema */}
+          {/* Status da partida */}
           {!isGameOver && (
-            <div className="bg-[#1e1e1e] rounded-xl p-4 space-y-4">
+            <Card variant="gradient" className="p-4 space-y-3">
               <div className="text-center">
                 {isMyTurn ? (
-                  <p className="text-[#c29d5d] font-semibold">Sua vez de jogar</p>
+                  <p className="text-gold font-semibold text-sm">Sua vez de jogar</p>
                 ) : (
-                  <p className="text-gray-400">Aguardando lance do oponente...</p>
+                  <p className="text-muted-foreground text-sm">Aguardando lance do oponente...</p>
                 )}
               </div>
-              
-              {/* Seletor de tema compacto */}
-              <div className="border-t border-gray-700 pt-4">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-gray-400 flex items-center gap-2">
-                    <Palette size={16} />
-                    Tema das Peças
-                  </span>
+              <div className="border-t border-gold/10 pt-3">
+                <div className="flex items-center gap-2 mb-2">
+                  <Palette size={14} className="text-muted-foreground" />
+                  <span className="text-xs text-muted-foreground">Tema das Peças</span>
                 </div>
                 <PieceThemeSelector compact />
               </div>
-            </div>
+            </Card>
           )}
         </div>
       </div>

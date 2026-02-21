@@ -1,8 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Eye, RefreshCw } from 'lucide-react';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import { PageLayout } from '@/components/layout';
+import { Button } from '@/components/ui';
 import LiveGameCard from '@/components/PlayOnline/LiveGameCard';
 import { useLiveGames } from '@/hooks/useLiveGames';
 
@@ -10,52 +10,49 @@ export default function WatchGames() {
   const { games, loading, error, refresh } = useLiveGames();
 
   return (
-    <div className="min-h-screen bg-[#181818] flex flex-col">
-      <Navbar />
-
-      <main className="flex-1 py-8 px-4">
+    <PageLayout>
+      <main className="flex-1 py-6 sm:py-8 px-4">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
             <div className="flex items-center gap-3">
-              <Eye size={32} className="text-red-500" />
-              <h1 className="text-2xl sm:text-3xl font-bold text-white">
+              <Eye size={28} className="text-red-500 shrink-0" />
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground">
                 Partidas ao Vivo
               </h1>
               {games.length > 0 && (
-                <span className="text-xs sm:text-sm bg-red-500 text-white px-2 sm:px-3 py-1 rounded-full animate-pulse font-semibold">
+                <span className="text-xs bg-red-500 text-white px-2.5 py-1 rounded-full animate-pulse font-semibold">
                   {games.length} AO VIVO
                 </span>
               )}
             </div>
-            <button
+            <Button
+              variant="outline"
+              size="sm"
               onClick={refresh}
               disabled={loading}
-              className="flex items-center gap-2 px-4 py-2 bg-[#2a2a2a] hover:bg-[#333] text-gray-300 hover:text-white rounded-lg transition-colors disabled:opacity-50"
+              className="flex items-center gap-2"
             >
               <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
               Atualizar
-            </button>
+            </Button>
           </div>
 
           {/* Conteúdo */}
           {loading ? (
             <div className="flex items-center justify-center min-h-[300px]">
               <div className="text-center">
-                <div className="w-16 h-16 border-4 border-[#c29d5d] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-                <p className="text-gray-400">Carregando partidas...</p>
+                <div className="w-14 h-14 border-4 border-gold border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                <p className="text-muted-foreground text-sm">Carregando partidas...</p>
               </div>
             </div>
           ) : error ? (
             <div className="flex items-center justify-center min-h-[300px]">
               <div className="text-center">
-                <p className="text-red-400 mb-4">Erro ao carregar partidas: {error}</p>
-                <button
-                  onClick={refresh}
-                  className="px-4 py-2 bg-[#c29d5d] hover:bg-[#d4af6d] text-black font-semibold rounded-lg"
-                >
+                <p className="text-red-400 mb-4 text-sm">Erro ao carregar partidas: {error}</p>
+                <Button variant="primary" size="sm" onClick={refresh}>
                   Tentar novamente
-                </button>
+                </Button>
               </div>
             </div>
           ) : games.length === 0 ? (
@@ -64,21 +61,18 @@ export default function WatchGames() {
               animate={{ opacity: 1, y: 0 }}
               className="flex flex-col items-center justify-center min-h-[300px] text-center"
             >
-              <div className="w-24 h-24 bg-[#2a2a2a] rounded-full flex items-center justify-center mb-6">
-                <Eye size={48} className="text-gray-600" />
+              <div className="w-20 h-20 bg-surface-secondary rounded-full flex items-center justify-center mb-6 border border-gold/20">
+                <Eye size={40} className="text-muted-foreground/40" />
               </div>
-              <h2 className="text-xl font-semibold text-gray-300 mb-2">
+              <h2 className="text-lg sm:text-xl font-semibold text-foreground mb-2">
                 Nenhuma partida ao vivo
               </h2>
-              <p className="text-gray-500 max-w-md">
+              <p className="text-muted-foreground text-sm max-w-md mb-6">
                 Não há partidas acontecendo no momento. Volte mais tarde ou inicie uma nova partida!
               </p>
-              <a
-                href="/play-online"
-                className="mt-6 px-6 py-3 bg-[#c29d5d] hover:bg-[#d4af6d] text-black font-semibold rounded-lg transition-colors"
-              >
+              <Button variant="primary" as="a" href="/play-online">
                 Jogar Online
-              </a>
+              </Button>
             </motion.div>
           ) : (
             <motion.div
@@ -100,8 +94,6 @@ export default function WatchGames() {
           )}
         </div>
       </main>
-
-      <Footer />
-    </div>
+    </PageLayout>
   );
 }

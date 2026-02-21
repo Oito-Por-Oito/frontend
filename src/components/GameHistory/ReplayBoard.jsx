@@ -93,7 +93,7 @@ export default function ReplayBoard({
 
   return (
     <div className="relative aspect-square w-full max-w-lg mx-auto select-none">
-      <div className="grid grid-cols-8 w-full h-full rounded-lg overflow-hidden shadow-xl border-2 border-[#c29d5d]/30">
+      <div className="grid grid-cols-8 w-full h-full rounded-lg overflow-hidden shadow-xl border-2 border-gold/30">
         {displayBoard.map((row, rowIdx) =>
           row.map((piece, colIdx) => {
             const { row: actualRow, col: actualCol } = getDisplayCoords(rowIdx, colIdx);

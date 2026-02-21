@@ -1,8 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import { PageLayout } from '@/components/layout';
 import MatchmakingLobby from '@/components/PlayOnline/MatchmakingLobby';
 import GameRoom from '@/components/PlayOnline/GameRoom';
 import { useAuth } from '@/hooks/useAuth';
@@ -32,16 +30,17 @@ export default function PlayOnline() {
     clearMatchedGame();
   };
 
-  // Handler para navegar para partida de rematch
   const handleRematchAccepted = useCallback((newGameId) => {
     setMatchedGame({ id: newGameId });
   }, [setMatchedGame]);
 
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-[#181818] flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-[#c29d5d] border-t-transparent rounded-full animate-spin" />
-      </div>
+      <PageLayout showFooter={false}>
+        <div className="flex-1 flex items-center justify-center">
+          <div className="w-12 h-12 border-4 border-gold border-t-transparent rounded-full animate-spin" />
+        </div>
+      </PageLayout>
     );
   }
 
@@ -50,31 +49,29 @@ export default function PlayOnline() {
   }
 
   return (
-    <div className="min-h-screen bg-[#181818] flex flex-col">
-      <Navbar />
-      
-      <main className="flex-1 py-8 px-4">
-        <div className="max-w-6xl mx-auto">
-          {matchedGame ? (
-            <GameRoom 
-              gameId={matchedGame.id} 
-              onLeaveGame={handleLeaveGame}
-              onRematchAccepted={handleRematchAccepted}
-            />
-          ) : (
-            <div className="max-w-2xl mx-auto">
-              <MatchmakingLobby
-                onJoinQueue={joinQueue}
-                onLeaveQueue={leaveQueue}
-                isSearching={isSearching}
-                error={error}
+    <PageLayout showFooter={!matchedGame}>
+      <div className="flex-1 overflow-x-hidden">
+        <div className="py-4 sm:py-6 px-4">
+          <div className="max-w-6xl mx-auto">
+            {matchedGame ? (
+              <GameRoom 
+                gameId={matchedGame.id} 
+                onLeaveGame={handleLeaveGame}
+                onRematchAccepted={handleRematchAccepted}
               />
-            </div>
-          )}
+            ) : (
+              <div className="max-w-2xl mx-auto">
+                <MatchmakingLobby
+                  onJoinQueue={joinQueue}
+                  onLeaveQueue={leaveQueue}
+                  isSearching={isSearching}
+                  error={error}
+                />
+              </div>
+            )}
+          </div>
         </div>
-      </main>
-
-      <Footer />
-    </div>
+      </div>
+    </PageLayout>
   );
 }

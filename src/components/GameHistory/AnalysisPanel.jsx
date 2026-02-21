@@ -21,17 +21,17 @@ export default function AnalysisPanel({
 
   if (isAnalyzing) {
     return (
-      <div className="bg-[#1e1e1e] rounded-xl p-6 text-center">
+      <div className="bg-surface-secondary rounded-xl p-6 text-center">
         <div className="relative w-20 h-20 mx-auto mb-4">
-          <Loader2 className="w-full h-full text-[#c29d5d] animate-spin" />
+          <Loader2 className="w-full h-full text-gold animate-spin" />
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-lg font-bold text-white">{progress}%</span>
+            <span className="text-lg font-bold text-foreground">{progress}%</span>
           </div>
         </div>
-        <p className="text-gray-300 mb-3">Analisando partida...</p>
+        <p className="text-foreground mb-3">Analisando partida...</p>
         <div className="w-full bg-gray-700 rounded-full h-2 mb-4">
           <motion.div
-            className="bg-[#c29d5d] h-2 rounded-full"
+            className="bg-gold h-2 rounded-full"
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
             transition={{ duration: 0.3 }}
@@ -39,7 +39,7 @@ export default function AnalysisPanel({
         </div>
         <button
           onClick={onStopAnalysis}
-          className="px-4 py-2 text-sm text-gray-400 hover:text-white transition-colors"
+          className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           Cancelar
         </button>
@@ -49,15 +49,15 @@ export default function AnalysisPanel({
 
   if (!analysisResults) {
     return (
-      <div className="bg-[#1e1e1e] rounded-xl p-6 text-center">
-        <Brain className="mx-auto mb-3 text-[#c29d5d]" size={40} />
-        <h3 className="text-lg font-semibold text-white mb-2">Análise com Stockfish</h3>
-        <p className="text-gray-400 text-sm mb-4">
+      <div className="bg-surface-secondary rounded-xl p-6 text-center">
+        <Brain className="mx-auto mb-3 text-gold" size={40} />
+        <h3 className="text-lg font-semibold text-foreground mb-2">Análise com Stockfish</h3>
+        <p className="text-muted-foreground text-sm mb-4">
           Descubra os melhores lances e onde você errou
         </p>
         <button
           onClick={onStartAnalysis}
-          className="px-6 py-2.5 bg-gradient-to-r from-[#c29d5d] to-[#d4af70] 
+          className="px-6 py-2.5 bg-gradient-to-r from-gold to-gold-light 
                      text-black font-semibold rounded-lg hover:scale-105 transition-transform
                      flex items-center gap-2 mx-auto"
         >
@@ -70,9 +70,9 @@ export default function AnalysisPanel({
 
   // Show summary when analysis is complete
   return (
-    <div className="bg-[#1e1e1e] rounded-xl p-4 space-y-4">
-      <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-        <Brain className="text-[#c29d5d]" size={20} />
+    <div className="bg-surface-secondary rounded-xl p-4 space-y-4">
+      <h3 className="text-lg font-semibold text-foreground flex items-center gap-2">
+        <Brain className="text-gold" size={20} />
         Resumo da Análise
       </h3>
 
@@ -91,8 +91,8 @@ export default function AnalysisPanel({
       </div>
 
       {/* Move type breakdown */}
-      <div className="border-t border-gray-700 pt-3">
-        <h4 className="text-sm font-medium text-gray-400 mb-2">Classificação dos Lances</h4>
+      <div className="border-t border-gold/10 pt-3">
+        <h4 className="text-sm font-medium text-muted-foreground mb-2">Classificação dos Lances</h4>
         <div className="grid grid-cols-2 gap-2 text-xs">
           <MoveCounts counts={analysisResults.moveTypeCounts.white} label="Brancas" />
           <MoveCounts counts={analysisResults.moveTypeCounts.black} label="Pretas" />
@@ -101,8 +101,8 @@ export default function AnalysisPanel({
 
       <button
         onClick={onStartAnalysis}
-        className="w-full px-4 py-2 text-sm text-gray-400 hover:text-white 
-                   border border-gray-700 rounded-lg hover:bg-[#2a2a2a] transition-colors"
+        className="w-full px-4 py-2 text-sm text-muted-foreground hover:text-foreground 
+                   border border-gold/10 rounded-lg hover:bg-surface-tertiary transition-colors"
       >
         Reanalisar
       </button>
@@ -120,12 +120,12 @@ function AccuracyBadge({ label, accuracy, counts }) {
   };
 
   return (
-    <div className="bg-[#2a2a2a] rounded-lg p-3 text-center">
-      <p className="text-xs text-gray-500 mb-1">{label}</p>
+    <div className="bg-surface-tertiary rounded-lg p-3 text-center">
+      <p className="text-xs text-muted-foreground/60 mb-1">{label}</p>
       <p className={`text-2xl font-bold ${getAccuracyColor(accuracy)}`}>
         {accuracy.toFixed(1)}%
       </p>
-      <p className="text-xs text-gray-500 mt-1">precisão</p>
+      <p className="text-xs text-muted-foreground/60 mt-1">precisão</p>
     </div>
   );
 }
@@ -133,7 +133,7 @@ function AccuracyBadge({ label, accuracy, counts }) {
 function MoveCounts({ counts, label }) {
   return (
     <div className="space-y-1">
-      <p className="font-medium text-gray-300 mb-1">{label}</p>
+      <p className="font-medium text-foreground mb-1">{label}</p>
       {counts.brilliant > 0 && (
         <div className="flex justify-between text-cyan-400">
           <span>Brilhante !!</span>
@@ -147,7 +147,7 @@ function MoveCounts({ counts, label }) {
         </div>
       )}
       {counts.good > 0 && (
-        <div className="flex justify-between text-gray-300">
+        <div className="flex justify-between text-foreground">
           <span>Bom</span>
           <span>{counts.good}</span>
         </div>

@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Trophy, Clock, Calendar, User } from 'lucide-react';
+import { ArrowLeft, Clock, Calendar } from 'lucide-react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import { PageLayout } from '@/components/layout';
+import { Card, Button } from '@/components/ui';
 import ReplayBoard from '@/components/GameHistory/ReplayBoard';
 import MoveNavigator from '@/components/GameHistory/MoveNavigator';
 import AnalysisMoveList from '@/components/GameHistory/AnalysisMoveList';
@@ -63,46 +63,34 @@ export default function GameReplay() {
     }
   };
 
-  // Determine player info
   const isWhite = game?.white_player_id === profile?.id;
-  const myPlayer = isWhite ? game?.white_player : game?.black_player;
-  const opponent = isWhite ? game?.black_player : game?.white_player;
-
-  // Get current evaluation for the bar
   const currentEval = analysisResults?.moves?.[currentMoveIndex]?.evalAfter;
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#181818] flex flex-col">
-        <Navbar />
-        <main className="flex-1 flex items-center justify-center">
+      <PageLayout>
+        <div className="flex-1 flex items-center justify-center py-20">
           <div className="text-center">
-            <div className="w-16 h-16 border-4 border-[#c29d5d] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-gray-400">Carregando partida...</p>
+            <div className="w-14 h-14 border-4 border-gold border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+            <p className="text-muted-foreground text-sm">Carregando partida...</p>
           </div>
-        </main>
-        <Footer />
-      </div>
+        </div>
+      </PageLayout>
     );
   }
 
   if (error || !game) {
     return (
-      <div className="min-h-screen bg-[#181818] flex flex-col">
-        <Navbar />
-        <main className="flex-1 flex items-center justify-center px-4">
+      <PageLayout>
+        <div className="flex-1 flex items-center justify-center px-4 py-20">
           <div className="text-center">
-            <p className="text-red-400 mb-4">{error || 'Partida não encontrada'}</p>
-            <button
-              onClick={() => navigate('/history')}
-              className="px-4 py-2 bg-[#333] hover:bg-[#444] text-white rounded-lg"
-            >
+            <p className="text-red-400 mb-4 text-sm">{error || 'Partida não encontrada'}</p>
+            <Button variant="outline" onClick={() => navigate('/history')}>
               Voltar ao histórico
-            </button>
+            </Button>
           </div>
-        </main>
-        <Footer />
-      </div>
+        </div>
+      </PageLayout>
     );
   }
 
@@ -112,8 +100,7 @@ export default function GameReplay() {
   const getResultBadge = () => {
     const isWinner = game.winner_id === profile?.id;
     const isDraw = game.result === '1/2-1/2';
-    
-    if (isDraw) return { text: 'Empate', color: 'bg-gray-500/20 text-gray-400' };
+    if (isDraw) return { text: 'Empate', color: 'bg-surface-tertiary text-muted-foreground' };
     if (isWinner) return { text: 'Vitória', color: 'bg-green-500/20 text-green-400' };
     return { text: 'Derrota', color: 'bg-red-500/20 text-red-400' };
   };
@@ -121,10 +108,8 @@ export default function GameReplay() {
   const result = getResultBadge();
 
   return (
-    <div className="min-h-screen bg-[#181818] flex flex-col">
-      <Navbar />
-      
-      <main className="flex-1 py-6 px-4">
+    <PageLayout>
+      <main className="flex-1 py-4 sm:py-6 px-4 overflow-x-hidden">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <motion.div
@@ -134,23 +119,23 @@ export default function GameReplay() {
           >
             <button
               onClick={() => navigate('/history')}
-              className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+              className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm"
             >
-              <ArrowLeft size={20} />
+              <ArrowLeft size={18} />
               <span>Voltar ao histórico</span>
             </button>
 
-            <div className="flex flex-wrap items-center gap-3">
-              <span className={`px-3 py-1.5 rounded-full text-xs font-semibold ${result.color}`}>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className={`px-3 py-1 rounded-full text-xs font-semibold ${result.color}`}>
                 {result.text}
               </span>
-              <span className="flex items-center gap-1.5 text-sm text-gray-400 bg-[#2a2a2a] px-3 py-1.5 rounded-full">
-                <Clock size={14} />
+              <span className="flex items-center gap-1.5 text-xs text-muted-foreground bg-surface-secondary px-3 py-1 rounded-full border border-gold/10">
+                <Clock size={12} />
                 {game.time_control}
               </span>
               {game.ended_at && (
-                <span className="flex items-center gap-1.5 text-sm text-gray-400 bg-[#2a2a2a] px-3 py-1.5 rounded-full">
-                  <Calendar size={14} />
+                <span className="flex items-center gap-1.5 text-xs text-muted-foreground bg-surface-secondary px-3 py-1 rounded-full border border-gold/10">
+                  <Calendar size={12} />
                   {format(new Date(game.ended_at), "d MMM yyyy, HH:mm", { locale: ptBR })}
                 </span>
               )}
@@ -167,31 +152,24 @@ export default function GameReplay() {
             )}
 
             {/* Board and controls */}
-            <div className={`${analysisResults ? 'lg:col-span-6' : 'lg:col-span-7'} space-y-4 min-w-0`}>
-              {/* Player info - Black (top) */}
+            <div className={`${analysisResults ? 'lg:col-span-6' : 'lg:col-span-7'} space-y-3 min-w-0`}>
               <PlayerBar 
                 player={game.black_player} 
                 rating={blackRating}
                 color="black"
                 isMe={game.black_player_id === profile?.id}
               />
-
-              {/* Chess board */}
               <ReplayBoard 
                 fen={currentFen} 
                 lastMoveSquares={lastMoveSquares}
                 orientation={isWhite ? 'white' : 'black'}
               />
-
-              {/* Player info - White (bottom) */}
               <PlayerBar 
                 player={game.white_player} 
                 rating={whiteRating}
                 color="white"
                 isMe={game.white_player_id === profile?.id}
               />
-
-              {/* Move navigator */}
               <MoveNavigator
                 currentIndex={currentMoveIndex}
                 totalMoves={totalMoves}
@@ -203,8 +181,7 @@ export default function GameReplay() {
             </div>
 
             {/* Sidebar */}
-            <div className={`${analysisResults ? 'lg:col-span-5' : 'lg:col-span-5'} space-y-4 min-w-0`}>
-              {/* Analysis panel */}
+            <div className={`${analysisResults ? 'lg:col-span-5' : 'lg:col-span-5'} space-y-3 min-w-0`}>
               <AnalysisPanel
                 isAnalyzing={isAnalyzing}
                 progress={progress}
@@ -213,53 +190,51 @@ export default function GameReplay() {
                 onStartAnalysis={handleStartAnalysis}
                 onStopAnalysis={stopAnalysis}
               />
-
-              {/* Move list with analysis */}
               <AnalysisMoveList
                 moves={moves}
                 analysisResults={analysisResults}
                 currentMoveIndex={currentMoveIndex}
                 onMoveClick={goToMove}
               />
-
-              {/* Game info */}
-              <div className="bg-[#1e1e1e] rounded-xl p-4">
-                <h4 className="text-sm font-semibold text-gray-300 mb-3">Informações da Partida</h4>
+              <Card variant="gradient" className="p-4">
+                <h4 className="text-sm font-semibold text-foreground mb-3">Informações da Partida</h4>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-500">Resultado</span>
-                    <span className="text-gray-300">{game.result}</span>
+                    <span className="text-muted-foreground">Resultado</span>
+                    <span className="text-foreground">{game.result}</span>
                   </div>
                   {game.result_reason && (
                     <div className="flex justify-between">
-                      <span className="text-gray-500">Motivo</span>
-                      <span className="text-gray-300 capitalize">{game.result_reason.replace(/_/g, ' ')}</span>
+                      <span className="text-muted-foreground">Motivo</span>
+                      <span className="text-foreground capitalize">
+                        {game.result_reason.replace(/_/g, ' ')}
+                      </span>
                     </div>
                   )}
                   <div className="flex justify-between">
-                    <span className="text-gray-500">Total de lances</span>
-                    <span className="text-gray-300">{totalMoves}</span>
+                    <span className="text-muted-foreground">Total de lances</span>
+                    <span className="text-foreground">{totalMoves}</span>
                   </div>
                 </div>
-              </div>
+              </Card>
             </div>
           </div>
         </div>
       </main>
-      
-      <Footer />
-    </div>
+    </PageLayout>
   );
 }
 
 function PlayerBar({ player, rating, color, isMe }) {
   return (
-    <div className={`flex items-center justify-between p-3 rounded-xl ${
-      isMe ? 'bg-[#c29d5d]/10 border border-[#c29d5d]/30' : 'bg-[#1e1e1e]'
+    <div className={`flex items-center justify-between p-3 rounded-xl border ${
+      isMe
+        ? 'bg-gold/10 border-gold/30'
+        : 'bg-surface-secondary border-surface-tertiary'
     }`}>
-      <div className="flex items-center gap-3">
-        <div className={`w-10 h-10 rounded-full overflow-hidden bg-[#2a2a2a] border-2 ${
-          isMe ? 'border-[#c29d5d]' : 'border-gray-600'
+      <div className="flex items-center gap-3 min-w-0">
+        <div className={`w-9 h-9 rounded-full overflow-hidden bg-surface-tertiary border-2 shrink-0 ${
+          isMe ? 'border-gold' : 'border-surface-tertiary'
         }`}>
           {player?.avatar_url ? (
             <img src={player.avatar_url} alt="" className="w-full h-full object-cover" />
@@ -269,19 +244,19 @@ function PlayerBar({ player, rating, color, isMe }) {
             </div>
           )}
         </div>
-        <div>
-          <p className={`font-medium ${isMe ? 'text-[#c29d5d]' : 'text-white'}`}>
+        <div className="min-w-0">
+          <p className={`font-medium text-sm truncate ${isMe ? 'text-gold' : 'text-foreground'}`}>
             {player?.display_name || player?.username || 'Jogador'}
-            {isMe && <span className="text-xs ml-2 text-gray-400">(você)</span>}
+            {isMe && <span className="text-xs ml-2 text-muted-foreground">(você)</span>}
           </p>
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-muted-foreground">
             {color === 'white' ? '♔ Brancas' : '♚ Pretas'}
           </p>
         </div>
       </div>
-      <div className="text-right">
-        <p className="font-semibold text-gray-300">{rating}</p>
-        <p className="text-xs text-gray-500">rating</p>
+      <div className="text-right shrink-0">
+        <p className="font-semibold text-sm text-foreground">{rating}</p>
+        <p className="text-xs text-muted-foreground">rating</p>
       </div>
     </div>
   );

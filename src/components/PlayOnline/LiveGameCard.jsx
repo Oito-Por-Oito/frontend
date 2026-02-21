@@ -9,31 +9,24 @@ function PlayerRow({ player, color }) {
   const avatarUrl = player?.avatar_url;
 
   return (
-    <div className="flex items-center gap-3">
-      {/* Indicador de cor */}
-      <div 
-        className={`w-4 h-4 rounded-sm border ${
-          color === 'white' 
-            ? 'bg-white border-gray-300' 
+    <div className="flex items-center gap-2 min-w-0">
+      <div
+        className={`w-3.5 h-3.5 rounded-sm border shrink-0 ${
+          color === 'white'
+            ? 'bg-white border-gray-300'
             : 'bg-gray-900 border-gray-600'
-        }`} 
+        }`}
       />
-      
-      {/* Avatar */}
-      <div className="w-8 h-8 rounded-full overflow-hidden bg-[#333] flex-shrink-0">
+      <div className="w-7 h-7 rounded-full overflow-hidden bg-surface-tertiary shrink-0">
         {avatarUrl ? (
           <img src={avatarUrl} alt={displayName} className="w-full h-full object-cover" />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-gray-500 text-sm">
+          <div className="w-full h-full flex items-center justify-center text-muted-foreground text-xs">
             👤
           </div>
         )}
       </div>
-
-      {/* Nome e rating */}
-      <div className="flex-1 min-w-0">
-        <span className="text-white font-medium truncate block">{displayName}</span>
-      </div>
+      <span className="text-foreground font-medium text-sm truncate">{displayName}</span>
     </div>
   );
 }
@@ -44,7 +37,6 @@ export default function LiveGameCard({ game }) {
   const whiteRating = getRatingForTimeControl(game.white_player, game.time_control);
   const blackRating = getRatingForTimeControl(game.black_player, game.time_control);
 
-  // Calcular tempo decorrido
   const startedAt = game.started_at ? new Date(game.started_at) : null;
   const elapsedMinutes = startedAt ? Math.floor((Date.now() - startedAt.getTime()) / 60000) : 0;
 
@@ -53,45 +45,44 @@ export default function LiveGameCard({ game }) {
       whileHover={{ scale: 1.02, y: -2 }}
       whileTap={{ scale: 0.98 }}
       onClick={() => navigate(`/watch/${game.id}`)}
-      className="bg-[#1e1e1e] rounded-xl p-4 cursor-pointer border border-gray-700 hover:border-[#c29d5d] transition-all duration-200 shadow-lg hover:shadow-xl"
+      className="bg-surface-secondary rounded-xl p-4 cursor-pointer border border-gold/10
+                 hover:border-gold/50 transition-all duration-200 shadow-lg hover:shadow-gold/10"
     >
-      {/* Header com indicador ao vivo */}
+      {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
           </span>
           <span className="text-xs text-red-400 font-semibold uppercase">Ao Vivo</span>
         </div>
-        <div className="flex items-center gap-2 text-xs text-gray-500">
-          <Clock size={12} />
+        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          <Clock size={11} />
           <span>{game.time_control}</span>
         </div>
       </div>
 
       {/* Jogadores */}
-      <div className="space-y-3 mb-4">
-        <div className="flex items-center justify-between">
+      <div className="space-y-2.5 mb-4">
+        <div className="flex items-center justify-between gap-2">
           <PlayerRow player={game.white_player} color="white" />
-          <span className="text-gray-400 text-sm font-mono">{whiteRating}</span>
+          <span className="text-muted-foreground text-xs font-mono shrink-0">{whiteRating}</span>
         </div>
-        
-        <div className="text-center text-gray-600 text-xs">vs</div>
-        
-        <div className="flex items-center justify-between">
+        <div className="text-center text-muted-foreground/40 text-xs">vs</div>
+        <div className="flex items-center justify-between gap-2">
           <PlayerRow player={game.black_player} color="black" />
-          <span className="text-gray-400 text-sm font-mono">{blackRating}</span>
+          <span className="text-muted-foreground text-xs font-mono shrink-0">{blackRating}</span>
         </div>
       </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-between pt-3 border-t border-gray-700">
-        <span className="text-xs text-gray-500">
+      <div className="flex items-center justify-between pt-3 border-t border-gold/10">
+        <span className="text-xs text-muted-foreground">
           {elapsedMinutes > 0 ? `${elapsedMinutes} min` : 'Agora'}
         </span>
-        <div className="flex items-center gap-1 text-[#c29d5d] text-sm font-medium">
-          <Eye size={14} />
+        <div className="flex items-center gap-1 text-gold text-sm font-medium">
+          <Eye size={13} />
           <span>Assistir</span>
         </div>
       </div>

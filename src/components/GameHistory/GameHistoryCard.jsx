@@ -21,7 +21,7 @@ export default function GameHistoryCard({ game, profileId }) {
   const opponentRating = getRatingForTimeControl(opponent, game.time_control);
   
   const resultText = isDraw ? 'Empate' : isWinner ? 'Vitória' : 'Derrota';
-  const resultColor = isDraw ? 'text-gray-400' : isWinner ? 'text-green-400' : 'text-red-400';
+  const resultColor = isDraw ? 'text-muted-foreground' : isWinner ? 'text-green-400' : 'text-red-400';
   const resultBg = isDraw ? 'bg-gray-500/20' : isWinner ? 'bg-green-500/20' : 'bg-red-500/20';
   
   const formattedDate = game.ended_at 
@@ -47,7 +47,7 @@ export default function GameHistoryCard({ game, profileId }) {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ scale: 1.01 }}
-      className="bg-[#1e1e1e] rounded-xl border border-gray-700 hover:border-[#c29d5d]/50 
+      className="bg-surface-secondary rounded-xl border border-gold/10 hover:border-gold/50 
                  transition-all duration-200 overflow-hidden cursor-pointer group"
       onClick={() => navigate(`/history/${game.id}`)}
     >
@@ -59,12 +59,12 @@ export default function GameHistoryCard({ game, profileId }) {
               {resultText}
             </span>
             {getResultReason() && (
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-muted-foreground/60">
                 ({getResultReason()})
               </span>
             )}
           </div>
-          <div className="flex items-center gap-1.5 text-xs text-gray-500">
+          <div className="flex items-center gap-1.5 text-xs text-muted-foreground/60">
             <Clock size={12} />
             {game.time_control}
           </div>
@@ -75,7 +75,7 @@ export default function GameHistoryCard({ game, profileId }) {
           {/* Opponent */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full overflow-hidden bg-[#2a2a2a] border border-gray-600">
+              <div className="w-8 h-8 rounded-full overflow-hidden bg-surface-tertiary border border-gold/10">
                 {opponent?.avatar_url ? (
                   <img src={opponent.avatar_url} alt="" className="w-full h-full object-cover" />
                 ) : (
@@ -83,15 +83,15 @@ export default function GameHistoryCard({ game, profileId }) {
                 )}
               </div>
               <div>
-                <p className="text-sm font-medium text-white">
+                <p className="text-sm font-medium text-foreground">
                   {opponent?.display_name || opponent?.username || 'Oponente'}
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-muted-foreground/60">
                   {isWhite ? '♜ Pretas' : '♔ Brancas'}
                 </p>
               </div>
             </div>
-            <span className="text-sm text-gray-400">{opponentRating}</span>
+            <span className="text-sm text-muted-foreground">{opponentRating}</span>
           </div>
 
           {/* Separator */}
@@ -104,7 +104,7 @@ export default function GameHistoryCard({ game, profileId }) {
           {/* Me */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full overflow-hidden bg-[#2a2a2a] border-2 border-[#c29d5d]">
+              <div className="w-8 h-8 rounded-full overflow-hidden bg-surface-tertiary border-2 border-gold">
                 {myPlayer?.avatar_url ? (
                   <img src={myPlayer.avatar_url} alt="" className="w-full h-full object-cover" />
                 ) : (
@@ -112,26 +112,26 @@ export default function GameHistoryCard({ game, profileId }) {
                 )}
               </div>
               <div>
-                <p className="text-sm font-medium text-[#c29d5d]">
+                <p className="text-sm font-medium text-gold">
                   {myPlayer?.display_name || myPlayer?.username || 'Você'}
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-muted-foreground/60">
                   {isWhite ? '♔ Brancas' : '♜ Pretas'}
                 </p>
               </div>
             </div>
-            <span className="text-sm text-[#c29d5d]">{myRating}</span>
+            <span className="text-sm text-gold">{myRating}</span>
           </div>
         </div>
 
         {/* Footer: Date + Actions */}
-        <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-700/50">
-          <span className="text-xs text-gray-500">{formattedDate}</span>
+        <div className="flex items-center justify-between mt-4 pt-3 border-t border-gold/10/50">
+          <span className="text-xs text-muted-foreground/60">{formattedDate}</span>
           
           <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
             <button 
-              className="flex items-center gap-1 px-2 py-1 text-xs text-gray-400 hover:text-white 
-                         bg-[#2a2a2a] rounded-lg transition-colors"
+              className="flex items-center gap-1 px-2 py-1 text-xs text-muted-foreground hover:text-foreground 
+                         bg-surface-tertiary rounded-lg transition-colors"
               onClick={(e) => {
                 e.stopPropagation();
                 navigate(`/history/${game.id}`);
@@ -141,8 +141,8 @@ export default function GameHistoryCard({ game, profileId }) {
               Replay
             </button>
             <button 
-              className="flex items-center gap-1 px-2 py-1 text-xs text-gray-400 hover:text-[#c29d5d] 
-                         bg-[#2a2a2a] rounded-lg transition-colors"
+              className="flex items-center gap-1 px-2 py-1 text-xs text-muted-foreground hover:text-gold 
+                         bg-surface-tertiary rounded-lg transition-colors"
               onClick={(e) => {
                 e.stopPropagation();
                 navigate(`/history/${game.id}?analyze=true`);

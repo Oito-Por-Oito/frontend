@@ -51,10 +51,10 @@ export default function AnalysisMoveList({
   return (
     <div 
       ref={listRef}
-      className="bg-[#1e1e1e] rounded-xl p-3 max-h-80 overflow-y-auto scrollbar-thin 
+      className="bg-surface-secondary rounded-xl p-3 max-h-80 overflow-y-auto scrollbar-thin 
                  scrollbar-track-transparent scrollbar-thumb-gray-700"
     >
-      <h4 className="text-sm font-semibold text-gray-300 mb-2 sticky top-0 bg-[#1e1e1e] pb-2">
+      <h4 className="text-sm font-semibold text-foreground mb-2 sticky top-0 bg-surface-secondary pb-2">
         Lances
       </h4>
       
@@ -62,7 +62,7 @@ export default function AnalysisMoveList({
         {movePairs.map((pair) => (
           <div key={pair.number} className="flex items-center gap-1 text-sm">
             {/* Move number */}
-            <span className="w-8 text-gray-500 text-right pr-1 flex-shrink-0">
+            <span className="w-8 text-muted-foreground/60 text-right pr-1 flex-shrink-0">
               {pair.number}.
             </span>
             
@@ -96,7 +96,7 @@ export default function AnalysisMoveList({
       </div>
       
       {moves.length === 0 && (
-        <p className="text-gray-500 text-center py-4 text-sm">Nenhum lance</p>
+        <p className="text-muted-foreground/60 text-center py-4 text-sm">Nenhum lance</p>
       )}
     </div>
   );
@@ -104,7 +104,7 @@ export default function AnalysisMoveList({
 
 const MoveCell = React.forwardRef(({ move, index, isActive, classification, evaluation, onClick }, ref) => {
   const bgClass = isActive 
-    ? 'bg-[#c29d5d]/30 border-[#c29d5d]' 
+    ? 'bg-gold/30 border-gold' 
     : classification?.bg || 'bg-transparent border-transparent';
   
   return (
@@ -114,7 +114,7 @@ const MoveCell = React.forwardRef(({ move, index, isActive, classification, eval
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
       className={`flex-1 px-2 py-1 rounded border transition-colors text-left
-                  hover:bg-[#2a2a2a] ${bgClass}`}
+                  hover:bg-surface-tertiary ${bgClass}`}
     >
       <div className="flex items-center justify-between gap-1">
         <span className={`font-mono ${classification?.color || 'text-gray-200'}`}>
@@ -124,7 +124,7 @@ const MoveCell = React.forwardRef(({ move, index, isActive, classification, eval
           )}
         </span>
         {evaluation && (
-          <span className="text-[10px] text-gray-500 font-mono">
+          <span className="text-[10px] text-muted-foreground/60 font-mono">
             {formatEvaluation(evaluation)}
           </span>
         )}
