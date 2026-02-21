@@ -4,7 +4,7 @@ import { TIME_CONTROLS } from '@/data/botData';
 
 export default function TimeControlSelector({ selectedTimeControl, onSelectTimeControl }) {
   return (
-    <div className="grid grid-cols-5 gap-1.5">
+    <div className="grid grid-cols-5 gap-1 sm:gap-1.5">
       {TIME_CONTROLS.map(control => (
         <motion.button
           key={control.id}

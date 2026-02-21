@@ -19,7 +19,7 @@ export default function PageLayout({
       className={cn(
         "min-h-screen flex flex-col",
         "bg-gradient-to-br from-surface-secondary via-surface-primary to-surface-secondary",
-        "text-foreground"
+        "text-foreground overflow-x-hidden"
       )}
       {...props}
     >

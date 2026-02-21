@@ -87,7 +87,7 @@ export default function PlayComputer() {
     <PageLayout showFooter={false}>
       {/* Desktop: viewport-locked, no scroll. Mobile: natural scroll */}
       <div className="flex-1 lg:h-[calc(100vh-64px)] lg:overflow-hidden">
-        <div className="w-full h-full flex flex-col lg:flex-row items-center lg:items-center justify-center gap-3 lg:gap-6 p-3 lg:p-4">
+        <div className="w-full h-full flex flex-col lg:flex-row items-center lg:items-center justify-center gap-3 lg:gap-6 p-3 lg:p-4 overflow-hidden">
           
           {/* Coluna do Tabuleiro */}
           <div className="flex flex-col items-center shrink-0">

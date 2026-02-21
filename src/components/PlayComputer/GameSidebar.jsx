@@ -29,7 +29,7 @@ export default function GameSidebar({
   return (
     <Card 
       variant="gradient" 
-      className="p-3 space-y-3 w-full lg:w-[300px] lg:max-h-[calc(100vh-96px)] flex flex-col"
+      className="p-3 space-y-3 w-full lg:w-[300px] flex flex-col"
     >
       {/* Info do Bot */}
       <div className="bg-surface-secondary/80 rounded-lg p-2.5 border border-surface-tertiary flex items-center gap-2.5 shrink-0">
