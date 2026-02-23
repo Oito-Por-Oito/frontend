@@ -14,6 +14,7 @@ const RatingsPlayers = lazy(() => import('./pages/RatingsPlayers'));
 const Settings = lazy(() => import('./pages/Settings'));
 const Donate = lazy(() => import('./pages/Donate'));
 const NotFoundPage = lazy(() => import('./pages/404Page'));
+const PlayerProfile = lazy(() => import('./pages/PlayerProfile'));
 
 // Jogo
 const Play = lazy(() => import('./pages/Play'));
@@ -168,6 +169,9 @@ export default function AppRoutes() {
           <Route path="/mais/biblioteca" element={<LearnLibrary />} />
           <Route path="/mais/explorador" element={<MaisExplorador />} />
           <Route path="/mais/xadrez-solo" element={<MaisXadrezSolo />} />
+
+          {/* Perfil público de jogadores */}
+          <Route path="/player/:userId" element={<PlayerProfile />} />
 
           {/* 404 */}
           <Route path="*" element={<NotFoundPage />} />
