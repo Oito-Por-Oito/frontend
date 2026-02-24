@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Brain, Filter, ChevronRight, Star, Lock } from 'lucide-react';
+import { Brain, Filter, ChevronRight, Star, Lock, Calendar, Flame } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import PageLayout from '@/components/layout/PageLayout';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
+import { useDailyPuzzle } from '@/hooks/useDailyPuzzle';
 
 const THEMES = [
   { id: 'fork', label: 'Garfo', emoji: '🍴', count: 1240 },
@@ -31,9 +33,19 @@ const MOCK_PUZZLES = Array.from({ length: 9 }, (_, i) => ({
   emoji: THEMES[i % THEMES.length].emoji,
 }));
 
+const DIFFICULTY_COLOR = {
+  easy: 'text-green-400',
+  medium: 'text-amber-400',
+  hard: 'text-red-400',
+  expert: 'text-purple-400',
+};
+const DIFFICULTY_LABEL = { easy: 'Fácil', medium: 'Médio', hard: 'Difícil', expert: 'Expert' };
+
 export default function PuzzleProblems() {
+  const navigate = useNavigate();
   const [activeDiff, setActiveDiff] = useState('Todos');
   const [activeTheme, setActiveTheme] = useState(null);
+  const { puzzle: dailyPuzzle, attempt: dailyAttempt, streak } = useDailyPuzzle();
 
   return (
     <PageLayout>
@@ -102,6 +114,55 @@ export default function PuzzleProblems() {
 
           {/* Conteúdo principal */}
           <div className="lg:col-span-3">
+            {/* Daily Puzzle Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-5"
+            >
+              <Card
+                variant="gradient"
+                className="cursor-pointer border-2 border-gold/40 hover:border-gold/70 transition-all group"
+                onClick={() => navigate('/puzzles/daily')}
+              >
+                <div className="flex items-center gap-4">
+                  <div className="text-4xl">📅</div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-bold text-gold text-base">Puzzle do Dia</h3>
+                      {dailyAttempt?.solved && (
+                        <span className="text-xs bg-green-500/20 text-green-400 border border-green-500/30 px-2 py-0.5 rounded-full">
+                          ✓ Resolvido
+                        </span>
+                      )}
+                    </div>
+                    {dailyPuzzle ? (
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <span className={DIFFICULTY_COLOR[dailyPuzzle.difficulty]}>
+                          {DIFFICULTY_LABEL[dailyPuzzle.difficulty]}
+                        </span>
+                        <span>·</span>
+                        <span>⭐ {dailyPuzzle.rating}</span>
+                        <span>·</span>
+                        <span>{dailyPuzzle.title}</span>
+                      </div>
+                    ) : (
+                      <p className="text-xs text-muted-foreground">Resolva o puzzle tático de hoje!</p>
+                    )}
+                  </div>
+                  <div className="flex flex-col items-end gap-1">
+                    <div className="flex items-center gap-1 bg-gold/10 border border-gold/20 rounded-lg px-3 py-1.5">
+                      <Flame size={14} className="text-orange-400" />
+                      <span className="text-gold font-bold text-sm">{streak}</span>
+                    </div>
+                    <span className="text-xs text-muted-foreground">dias</span>
+                  </div>
+                </div>
+                <div className="mt-3 bg-gold text-surface-primary text-center py-2 rounded-lg text-sm font-semibold group-hover:bg-gold-light transition-colors">
+                  {dailyAttempt?.solved ? '✓ Ver resultado' : '▶ Resolver Agora'}
+                </div>
+              </Card>
+            </motion.div>
             {/* Filtros de dificuldade */}
             <div className="flex gap-2 mb-5 flex-wrap">
               {DIFFICULTIES.map(d => (
