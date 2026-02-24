@@ -163,6 +163,38 @@ export default function PuzzleProblems() {
                 </div>
               </Card>
             </motion.div>
+            {/* Card: Problemas Interativos */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="mb-5"
+            >
+              <Card
+                variant="gradient"
+                className="cursor-pointer border-2 border-blue-500/30 hover:border-blue-500/60 transition-all group"
+                onClick={() => navigate('/puzzles/problems/all')}
+              >
+                <div className="flex items-center gap-4">
+                  <div className="text-4xl">🎯</div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-bold text-base text-foreground group-hover:text-blue-400 transition-colors">
+                        Problemas Interativos
+                      </h3>
+                      <span className="text-xs bg-blue-500/20 text-blue-400 border border-blue-500/30 px-2 py-0.5 rounded-full font-semibold">
+                        NOVO
+                      </span>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      Resolva puzzles reais no tabuleiro. Filtre por dificuldade e tema, acompanhe seu rating e progresso.
+                    </p>
+                  </div>
+                  <ChevronRight size={20} className="text-muted-foreground group-hover:text-blue-400 transition-colors flex-shrink-0" />
+                </div>
+              </Card>
+            </motion.div>
+
             {/* Filtros de dificuldade */}
             <div className="flex gap-2 mb-5 flex-wrap">
               {DIFFICULTIES.map(d => (

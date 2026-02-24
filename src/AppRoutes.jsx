@@ -38,6 +38,7 @@ const PuzzleRush = lazy(() => import('./pages/Puzzles/PuzzleRush'));
 const PuzzleBattle = lazy(() => import('./pages/Puzzles/PuzzleBattle'));
 const PuzzleDaily = lazy(() => import('./pages/Puzzles/PuzzleDaily'));
 const PuzzleCustom = lazy(() => import('./pages/Puzzles/PuzzleCustom'));
+const PuzzleProblemsNew = lazy(() => import('./pages/Puzzles/PuzzleProblemsNew'));
 
 // Learn
 const LearnChess = lazy(() => import('./pages/LearnChess'));
@@ -130,6 +131,7 @@ export default function AppRoutes() {
           <Route path="/puzzles/battle" element={<PuzzleBattle />} />
           <Route path="/puzzles/daily" element={<PuzzleDaily />} />
           <Route path="/puzzles/custom" element={<PuzzleCustom />} />
+          <Route path="/puzzles/problems/all" element={<PuzzleProblemsNew />} />
 
           {/* Learn */}
           <Route path="/learn" element={<LearnChess />} />
