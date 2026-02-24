@@ -15,6 +15,8 @@ const Settings = lazy(() => import('./pages/Settings'));
 const Donate = lazy(() => import('./pages/Donate'));
 const NotFoundPage = lazy(() => import('./pages/404Page'));
 const PlayerProfile = lazy(() => import('./pages/PlayerProfile'));
+const Stats = lazy(() => import('./pages/Stats'));
+const Goals = lazy(() => import('./pages/Goals'));
 
 // Jogo
 const Play = lazy(() => import('./pages/Play'));
@@ -172,6 +174,10 @@ export default function AppRoutes() {
 
           {/* Perfil público de jogadores */}
           <Route path="/player/:userId" element={<PlayerProfile />} />
+
+          {/* Estatísticas e Metas */}
+          <Route path="/stats" element={<Stats />} />
+          <Route path="/goals" element={<Goals />} />
 
           {/* 404 */}
           <Route path="*" element={<NotFoundPage />} />
